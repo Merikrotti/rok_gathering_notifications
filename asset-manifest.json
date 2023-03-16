@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/rok_gathering_notifications/static/css/main.54bc7178.css",
-    "main.js": "/rok_gathering_notifications/static/js/main.93841435.js",
+    "main.css": "/rok_gathering_notifications/static/css/main.7850edc4.css",
+    "main.js": "/rok_gathering_notifications/static/js/main.ca64be29.js",
     "static/js/787.d10e138c.chunk.js": "/rok_gathering_notifications/static/js/787.d10e138c.chunk.js",
     "index.html": "/rok_gathering_notifications/index.html",
-    "main.54bc7178.css.map": "/rok_gathering_notifications/static/css/main.54bc7178.css.map",
-    "main.93841435.js.map": "/rok_gathering_notifications/static/js/main.93841435.js.map",
+    "main.7850edc4.css.map": "/rok_gathering_notifications/static/css/main.7850edc4.css.map",
+    "main.ca64be29.js.map": "/rok_gathering_notifications/static/js/main.ca64be29.js.map",
     "787.d10e138c.chunk.js.map": "/rok_gathering_notifications/static/js/787.d10e138c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.54bc7178.css",
-    "static/js/main.93841435.js"
+    "static/css/main.7850edc4.css",
+    "static/js/main.ca64be29.js"
   ]
 }
