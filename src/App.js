@@ -7,10 +7,11 @@ function App() {
   const [minutes, setMinutes] = useState(10);
   const [seconds, setSeconds] = useState(30);
   const [volume, setVolume] = useState(50);
+  const [name, setName] = useState("");
 
   const addTimer = (e) => {
     e.preventDefault();
-    setTimers(a => [...a, [minutes, seconds]]);
+    setTimers(a => [...a, [minutes, seconds, name]]);
   }
 
   return (
@@ -21,6 +22,9 @@ function App() {
       </div>
       
       <div className="TimerAdder"><h2>Add timer</h2>
+      <label>Name (Can be blank):
+      <input type="text" id="name" onInput={e => setName(e.target.value)}></input>
+      </label>
       <label>Minutes:
       <input type="number" min="0" value={minutes} onInput={e => setMinutes(e.target.value)}></input>
       </label>
@@ -30,7 +34,7 @@ function App() {
       <button onClick={addTimer}>Add</button>
       </div>
       <div className="TimersContainer">
-      {timers.map((item, index) => <Timer key={index} minutes={item[0]} seconds={item[1]} volume={volume}/>)}
+      {timers.map((item, index) => <Timer key={index} minutes={item[0]} seconds={item[1]} name={item[2]} volume={volume}/>)}
       </div>
     </div>
     

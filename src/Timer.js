@@ -68,7 +68,7 @@ const Timer = (props) => {
 
     return (
     <div className="TimerContainer">
-        <h2>Timer of {gatherMinutes} minutes, {gatherSeconds} seconds</h2>
+        {props.name === "" ? <h2>Timer of {gatherMinutes} minutes, {gatherSeconds} seconds</h2> : <h2>{props.name}</h2>}
     <div className="Timer">
         <p>Time left: {timerString}</p>
         <button onClick={startGather}>reset</button>
