@@ -56,6 +56,16 @@ const Timer = (props) => {
         setMinutes(minutes + parseInt(amount));
     }
 
+    const remove = () => {
+        setMinutes(0);
+        setSeconds(0);
+        setStatus(null);
+    }
+
+    if(timerStatus === null) {
+        return;
+    }
+
     return (
     <div className="TimerContainer">
         <h2>Timer of {gatherMinutes} minutes, {gatherSeconds} seconds</h2>
@@ -63,7 +73,7 @@ const Timer = (props) => {
         <p>Time left: {timerString}</p>
         <button onClick={startGather}>reset</button>
         <button onClick={resetGather}>stop</button>
-        
+        <button onClick={remove}>remove</button>
     </div>
     <div className="Timer">
         <p>Add time: </p>
