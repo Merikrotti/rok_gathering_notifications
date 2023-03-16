@@ -53,7 +53,7 @@ const Timer = (props) => {
     const addMarch = (e) => {
         let amount = e.target.value;
 
-        setMinutes(minutes + parseInt(amount));
+        setMinutes(parseInt(minutes) + parseInt(amount));
     }
 
     const remove = () => {
