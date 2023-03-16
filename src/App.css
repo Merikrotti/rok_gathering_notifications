@@ -76,13 +76,17 @@ h1, h2, p, label {
   flex-direction: row;
 }
 
+.TimersContainer {
+  width: max-content;
+}
+
 .TimerContainer {
   display: flex;
   flex-direction: column;
   padding: 5px;
   margin-left: 1%;
   margin-top: 3%;
-  width: max-content;
+  width: 100%;
   background-color: darkred;
   border-radius: 10px;
   box-shadow: 5px 10px;

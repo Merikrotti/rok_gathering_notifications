@@ -29,7 +29,9 @@ function App() {
       </label>
       <button onClick={addTimer}>Add</button>
       </div>
+      <div className="TimersContainer">
       {timers.map((item, index) => <Timer key={index} minutes={item[0]} seconds={item[1]} volume={volume}/>)}
+      </div>
     </div>
     
   );

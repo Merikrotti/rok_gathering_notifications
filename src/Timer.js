@@ -18,12 +18,10 @@ const Timer = (props) => {
             audio.volume = props.volume / 100;
             audio.play();
         }
-        if (seconds === 0) {
+        if (seconds <= 0) {
             setSeconds(59);
             setMinutes(minutes-1);
         }
-        
-
         let fminutes = minutes;
         let fseconds = seconds;
         if (minutes < 10) {fminutes = "0"+minutes;}
