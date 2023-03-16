@@ -1,6 +1,38 @@
 .App {
-  text-align: center;
+  display: flexbox;
+  justify-content: left;
+  flex-direction: column;
+  line-height: 10px;
 }
+
+body {
+  background-color: #2d2d30;
+}
+
+h1, h2, p, label {
+  color: white;
+}
+
+.TimerAdder {
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+}
+.TimerAdder label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.TimerAdder label input {
+  width: 50px;
+}
+.TimerAdder button {
+  width: 50px;
+  align-self: flex-end;
+}
+
 
 .App-logo {
   height: 40vmin;
@@ -35,4 +67,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Timer {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-direction: row;
+}
+
+.TimerContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin-left: 1%;
+  margin-top: 3%;
+  width: max-content;
+  background-color: darkred;
+  border-radius: 10px;
+  box-shadow: 5px 10px;
+  line-height: 0;
+}
+
+.Timer button {
+  margin-left: 5px;
 }
