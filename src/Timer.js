@@ -14,7 +14,8 @@ const Timer = (props) => {
         if (seconds <= 0 && minutes <= 0) {
             setStatus(false);
             setTimerStr("00:00");
-            var audio = new Audio("ding.mp3");
+            var audio = new Audio("https://github.com/Merikrotti/rok_gathering_notifications/blob/main/src/ding.mp3?raw=true");
+            audio.volume = props.volume / 100;
             audio.play();
         }
         if (seconds === 0) {
