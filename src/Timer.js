@@ -2,65 +2,74 @@ import { useEffect, useState } from "react"
 import './App.css'
 
 const Timer = (props) => {
-    const [seconds, setSeconds] = useState(props.seconds);
-    const [minutes, setMinutes] = useState(props.minutes);
-    const [gatherSeconds] = useState(props.seconds);
-    const [gatherMinutes] = useState(props.minutes);
+    const [endTime, setTime] = useState(null);
     const [timerStatus, setStatus] = useState(true);
-    const [timerString, setTimerStr] = useState("00:00");
-
+    const [timerString, setTimerStr] = useState("00:00:00");
     
+    if(endTime === null) {
+        let timeNow = new Date();
+        timeNow.setSeconds(timeNow.getSeconds() + parseInt(props.seconds));
+        setTime(timeNow);
+    }
+
     useEffect(() => {
         const setTime = () => {
-            setSeconds(seconds-1);
-            if (seconds <= 0 && minutes <= 0) {
+
+            let timeNow = new Date();
+            let timediff = endTime - timeNow;
+
+            if (timediff <= 0) {
                 setStatus(false);
-                setTimerStr("00:00");
                 var audio = new Audio("https://github.com/Merikrotti/rok_gathering_notifications/blob/main/src/ding.mp3?raw=true");
                 audio.volume = props.volume / 100;
                 audio.play();
             }
-            if (seconds <= 0) {
-                setSeconds(59);
-                setMinutes(minutes-1);
-            }
-            let fminutes = minutes;
-            let fseconds = seconds;
-            if (minutes < 10) {fminutes = "0"+minutes;}
-            if (seconds < 10) {fseconds = "0"+seconds;}
-    
-            setTimerStr(fminutes + ":" + fseconds);
+            let floatseconds = timediff / 1000;
+
+            let ss = Math.floor(floatseconds);
+            let mm = Math.floor(ss / 60) % 60
+            let hh = Math.floor(mm / 60) % 60
+            ss = ss % 60;
+            
+            ss = formatTime(ss);
+            mm = formatTime(mm);
+            hh = formatTime(hh);
+
+            setTimerStr(hh + ":" + mm + ":" + ss);
+            
         }
 
-        const itv = setInterval(() => setTime(), 1000);
+        //always returns str
+        const formatTime = (itgr) => {
+            if (itgr < 10) {
+                return "0" + itgr;
+            }
+            return itgr + "";
+        }
+
+        const itv = setInterval(() => setTime(), 200);
         if(!timerStatus) {
             clearInterval(itv);
         }
         return () => clearInterval(itv);
-    }, [timerStatus, minutes, props.volume, seconds])
-    
+    }, [timerStatus, props.volume])
+
     const startGather = () => {
-        setMinutes(gatherMinutes);
-        setSeconds(gatherSeconds);
+        //setTime(moment().add(new Date().setSeconds(props.seconds)));
         setStatus(true);
     }
 
     const resetGather = () => {
-        setMinutes(0);
-        setSeconds(0);
         setStatus(false);
-        setTimerStr("00:00");
     }
 
     const addMarch = (e) => {
         let amount = e.target.value;
 
-        setMinutes(parseInt(minutes) + parseInt(amount));
+        //setTime();
     }
 
     const remove = () => {
-        setMinutes(0);
-        setSeconds(0);
         setStatus(null);
     }
 
@@ -70,7 +79,7 @@ const Timer = (props) => {
 
     return (
     <div className="TimerContainer">
-        {props.name === "" ? <h2>Timer of {gatherMinutes} minutes, {gatherSeconds} seconds</h2> : <h2>{props.name}</h2>}
+        {props.name === "" ? <h2>Timer of dev minutes, dev seconds</h2> : <h2>{props.name}</h2>}
     <div className="Timer">
         <p>Time left: {timerString}</p>
         <div className="TimerControls">
