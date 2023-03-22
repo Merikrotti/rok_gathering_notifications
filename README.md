@@ -4,6 +4,11 @@ A timer that calculates how much time it takes for you to gather and notifies yo
 
 Incomplete. So is this readme.
 
+
+## TODO
+
+Save sessions. Implement "farming on territory" reduction and alliance speedups after that. Custom timers probably aswell if I will bother.
+
 ## I have an issue?
 
 Open an issue on github and double check try to make it as comprehensive as possible.
