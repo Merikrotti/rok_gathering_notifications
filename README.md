@@ -2,6 +2,8 @@
 
 A timer that calculates how much time it takes for you to gather and notifies you.
 
+Live version in github.io; https://merikrotti.github.io/rok_gathering_notifications/
+
 Incomplete. So is this readme.
 
 
