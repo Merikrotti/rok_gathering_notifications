@@ -2,65 +2,81 @@ import { useEffect, useState } from "react"
 import './App.css'
 
 const Timer = (props) => {
-    const [seconds, setSeconds] = useState(props.seconds);
-    const [minutes, setMinutes] = useState(props.minutes);
-    const [gatherSeconds] = useState(props.seconds);
-    const [gatherMinutes] = useState(props.minutes);
+    const [endTime, setTime] = useState(null);
+    const [resetTime, setReset] = useState(props.seconds);
     const [timerStatus, setStatus] = useState(true);
-    const [timerString, setTimerStr] = useState("00:00");
-
+    const [timerString, setTimerStr] = useState("00:00:00");
     
+    const resetTimeWithSeconds = (seconds) => {
+        let timeNow = new Date();
+        timeNow.setSeconds(timeNow.getSeconds() + parseInt(seconds));
+
+        setReset(seconds);
+        setTime(timeNow);
+    }
+
+    if(endTime === null) {
+        resetTimeWithSeconds(props.seconds);
+    }
+
     useEffect(() => {
         const setTime = () => {
-            setSeconds(seconds-1);
-            if (seconds <= 0 && minutes <= 0) {
+
+            let timeNow = new Date();
+            let timediff = endTime - timeNow;
+
+            if (timediff <= 0) {
                 setStatus(false);
-                setTimerStr("00:00");
                 var audio = new Audio("https://github.com/Merikrotti/rok_gathering_notifications/blob/main/src/ding.mp3?raw=true");
                 audio.volume = props.volume / 100;
                 audio.play();
+                return;
             }
-            if (seconds <= 0) {
-                setSeconds(59);
-                setMinutes(minutes-1);
-            }
-            let fminutes = minutes;
-            let fseconds = seconds;
-            if (minutes < 10) {fminutes = "0"+minutes;}
-            if (seconds < 10) {fseconds = "0"+seconds;}
-    
-            setTimerStr(fminutes + ":" + fseconds);
+            let floatseconds = timediff / 1000;
+
+            let ss = Math.floor(floatseconds);
+            let mm = Math.floor(ss / 60) % 60
+            let hh = Math.floor(ss / 60 / 60) % 60
+            ss = ss % 60;
+            
+            ss = formatTime(ss);
+            mm = formatTime(mm);
+            hh = formatTime(hh);
+
+            setTimerStr(hh + ":" + mm + ":" + ss);
+            
         }
 
-        const itv = setInterval(() => setTime(), 1000);
+        //always returns str
+        const formatTime = (itgr) => {
+            if (itgr < 10) {
+                return "0" + itgr;
+            }
+            return itgr + "";
+        }
+
+        const itv = setInterval(() => setTime(), 200);
         if(!timerStatus) {
             clearInterval(itv);
         }
         return () => clearInterval(itv);
-    }, [timerStatus, minutes, props.volume, seconds])
-    
-    const startGather = () => {
-        setMinutes(gatherMinutes);
-        setSeconds(gatherSeconds);
-        setStatus(true);
-    }
+    }, [timerStatus, props.volume, endTime])
 
     const resetGather = () => {
-        setMinutes(0);
-        setSeconds(0);
+        setStatus(true);
+        resetTimeWithSeconds(resetTime);
+    }
+
+    const stopGather = () => {
         setStatus(false);
-        setTimerStr("00:00");
     }
 
     const addMarch = (e) => {
         let amount = e.target.value;
-
-        setMinutes(parseInt(minutes) + parseInt(amount));
+        let diff = endTime.setSeconds(endTime.getSeconds() + amount * 60);
     }
 
     const remove = () => {
-        setMinutes(0);
-        setSeconds(0);
         setStatus(null);
     }
 
@@ -68,14 +84,22 @@ const Timer = (props) => {
         return;
     }
 
+    const onDepositReset = (e) => {
+        let seconds = parseInt(e.target.value) * props.reduction;
+        console.log(seconds);
+        resetTimeWithSeconds(seconds);
+    }
+
+    
+
     return (
     <div className="TimerContainer">
-        {props.name === "" ? <h2>Timer of {gatherMinutes} minutes, {gatherSeconds} seconds</h2> : <h2>{props.name}</h2>}
+        {props.name === "" ? <h2>No name</h2> : <h2>{props.name}</h2>}
     <div className="Timer">
         <p>Time left: {timerString}</p>
         <div className="TimerControls">
-        <button onClick={startGather}>reset</button>
-        <button onClick={resetGather}>stop</button>
+        <button onClick={resetGather}>reset</button>
+        <button onClick={stopGather}>stop</button>
         <button onClick={remove}>remove</button>
         </div>
     </div>
@@ -109,6 +133,17 @@ const Timer = (props) => {
         <button onClick={addMarch} value={-10}>10</button>
         </div>
     </div>
+    {props.levels !== null ? <div className="TimerMath">
+        <div><p>Deposit level reset: </p></div>
+        <div className="TimerButtons">
+            {props.levels.map((item, index) => {
+                return <button onClick={onDepositReset} value={item[0]} key={"dl" + index}>{item[1]}</button>
+            })}
+        </div>
+    </div>
+    :
+    ""
+    }
     </div>)
 }
 

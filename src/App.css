@@ -1,8 +1,7 @@
 .App {
-  display: flexbox;
-  justify-content: left;
+  display: flex;
   flex-direction: column;
-  line-height: 10px;
+  height: 100vh;
 }
 
 body {
@@ -13,64 +12,106 @@ h1, h2, p, label {
   color: white;
 }
 
+
+.footercontainer {
+  color: white;
+  display: flex;
+  margin-top: auto;
+  bottom: 0px;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 98%;
+  padding: 0.2% 1% 0.2% 1%;
+  background-color: rgb(46, 79, 100);
+}
+
+.footercontainer > div {
+  flex-direction: column;
+  margin-left: 20px;
+  line-height: 25px;
+}
+.footercontainer footer:last-of-type {
+  display: inline-flex;
+  margin-right: 20px;  
+}
+
+.TimerForms {
+  display: inline-flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 20px;
+}
+.TimerForms > div {
+  margin: 6px;
+}
+
 .TimerAdder {
   display: flex;
   width: 340px;
+  padding: 10px;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
+  background-color: rgb(46, 79, 100);
+  border-radius: 10px;
+  box-shadow: 5px 10px;
+  height: max-content;
 }
+
+.TimerAdder p {
+  display: flex;
+  color: red;
+  line-height: 15px;
+}
+
 .TimerAdder label {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  
+}
+
+.TimerAdder span:last-of-type {
+  margin-left: auto;
+  height: 20px;
+  vertical-align: top;
+  color: red;
+
+}
+
+.footercontainer img {
+  width: 50px;
+}
+
+.TimerAdder input:last-of-type, select:last-of-type {
+  margin-left: auto;
 }
 .TimerAdder #name{
   width: 140px;
+}
+
+.TimerAdder #custombutton {
+  width: 120px;
+}
+.TimerAdder > div:last-of-type {
+  display: flex;
+  justify-content: space-between;
 }
 
 .TimerAdder label input {
   width: 50px;
 }
 .TimerAdder button {
+  margin-top: 10px;
   width: 50px;
   align-self: flex-end;
 }
 
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.TimerAdder #TimerCheckbox {
+  margin-top: 10px;
+  width: 25px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.rssSelection {
+  width: 70px;
 }
 
 .Timer {
@@ -94,13 +135,17 @@ h1, h2, p, label {
   display: flex;
   flex-direction: column;
   padding: 5px;
-  margin-left: 1%;
-  margin-top: 3%;
+  margin-left: 25px;
+  margin-bottom: 5%;
   width: 100%;
   background-color: darkred;
   border-radius: 10px;
   box-shadow: 5px 10px;
   line-height: 0;
+}
+
+.App .TimerContainer:first-of-type {
+  margin-top: 3%;
 }
 
 .TimerContainer h2 {

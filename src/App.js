@@ -1,17 +1,14 @@
 import { useState } from 'react';
 import './App.css';
 import Timer from './Timer.js'
+import AddTimer from './AddTimer';
 
 function App() {
   const [timers, setTimers] = useState([]);
-  const [minutes, setMinutes] = useState(10);
-  const [seconds, setSeconds] = useState(30);
   const [volume, setVolume] = useState(50);
-  const [name, setName] = useState("");
 
-  const addTimer = (e) => {
-    e.preventDefault();
-    setTimers(a => [...a, [minutes, seconds, name]]);
+  const addTime = (values) => {
+    setTimers(a => [...a, values]);
   }
 
   return (
@@ -20,25 +17,21 @@ function App() {
         <p>Volume</p>
         <input type="range" min="0" max="100" value={volume} onChange={e => setVolume(e.target.value)}></input>
       </div>
-      
-      <div className="TimerAdder"><h2>Add timer</h2>
-      <label>Name (Can be blank):
-      <input type="text" id="name" onInput={e => setName(e.target.value)}></input>
-      </label>
-      <label>Minutes:
-      <input type="number" min="0" value={minutes} onInput={e => setMinutes(e.target.value)}></input>
-      </label>
-      <label>Seconds:
-      <input type="number" min="0" max="60" value={seconds} onInput={e => setSeconds(e.target.value)}></input>
-      </label>
-      <button onClick={addTimer}>Add</button>
-      </div>
+      <AddTimer addtime={addTime}/>
       <div className="TimersContainer">
-      {timers.map((item, index) => <Timer key={index} minutes={item[0]} seconds={item[1]} name={item[2]} volume={volume}/>)}
+      {timers.map((item, index) => <Timer key={index} seconds={item[1]} name={item[0]} levels={item[2]} reduction={item[3]} volume={volume}/>)}
+      </div>
+      <div className="footercontainer">
+        <div>
+        <footer>This application is local and does not store your data outside this site. (unf) means unfinished.</footer>
+        <footer>Created by Merikrotti. See github page for license. Things are still broken, but are being fixed.</footer>
+        </div>
+        <footer><a target="_blank" href="https://github.com/Merikrotti/rok_gathering_notifications"><img src={process.env.PUBLIC_URL + "/github.png"} alt="github-image"></img></a></footer>
       </div>
     </div>
     
   );
 }
+
 
 export default App;
