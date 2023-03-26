@@ -1,0 +1,6 @@
+{
+    "middleware": {
+        "isEnabled": false,
+        "ipAddress": "localhost:8080"
+    }
+}

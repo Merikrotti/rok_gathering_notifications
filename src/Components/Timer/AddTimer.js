@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import TimerMiddleware from "../Connections/TimerMiddleware";
 
-
+//TODO split this application apart and comment.
 const AddTimer = (props) => {
     
     // Values for resources

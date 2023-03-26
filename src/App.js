@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import './App.css';
-import Timer from './Timer.js'
-import AddTimer from './AddTimer';
+import Timer from './Components/Timer/Timer.js'
+import AddTimer from './Components/Timer/AddTimer';
+import SettingsContextBuilder from './Components/SettingsContext/SettingsContextBuilder';
+import SettingsButton from './Components/Settings/SettingsButton';
+import PopupBuilder from './Components/Popup/PopupBuilder';
 
 function App() {
   const [timers, setTimers] = useState([]);
@@ -12,7 +15,9 @@ function App() {
   }
 
   return (
+    <SettingsContextBuilder>
     <div className="App">
+      <PopupBuilder/>
       <div className='volumecontrol'>
         <p>Volume</p>
         <input type="range" min="0" max="100" value={volume} onChange={e => setVolume(e.target.value)}></input>
@@ -26,10 +31,10 @@ function App() {
         <footer>This application is local and does not store your data outside this site. (unf) means unfinished.</footer>
         <footer>Created by Merikrotti. See github page for license. Things are still broken, but are being fixed.</footer>
         </div>
-        <footer><a target="_blank" href="https://github.com/Merikrotti/rok_gathering_notifications"><img src={process.env.PUBLIC_URL + "/github.png"} alt="github-image"></img></a></footer>
+        <footer><SettingsButton /><a target="_blank" href="https://github.com/Merikrotti/rok_gathering_notifications"><img src={process.env.PUBLIC_URL + "/github.png"} alt="github-image"></img></a></footer>
       </div>
     </div>
-    
+    </SettingsContextBuilder>
   );
 }
 
