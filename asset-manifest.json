@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/rok_gathering_notifications/static/css/main.d83ed354.css",
-    "main.js": "/rok_gathering_notifications/static/js/main.46765351.js",
+    "main.js": "/rok_gathering_notifications/static/js/main.c0317e4b.js",
     "static/js/787.d10e138c.chunk.js": "/rok_gathering_notifications/static/js/787.d10e138c.chunk.js",
     "static/media/fontawesome-webfont.svg?v=4.7.0": "/rok_gathering_notifications/static/media/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg",
     "static/media/fontawesome-webfont.eot": "/rok_gathering_notifications/static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
@@ -10,11 +10,11 @@
     "static/media/fontawesome-webfont.woff2?v=4.7.0": "/rok_gathering_notifications/static/media/fontawesome-webfont.20fd1704ea223900efa9.woff2",
     "index.html": "/rok_gathering_notifications/index.html",
     "main.d83ed354.css.map": "/rok_gathering_notifications/static/css/main.d83ed354.css.map",
-    "main.46765351.js.map": "/rok_gathering_notifications/static/js/main.46765351.js.map",
+    "main.c0317e4b.js.map": "/rok_gathering_notifications/static/js/main.c0317e4b.js.map",
     "787.d10e138c.chunk.js.map": "/rok_gathering_notifications/static/js/787.d10e138c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d83ed354.css",
-    "static/js/main.46765351.js"
+    "static/js/main.c0317e4b.js"
   ]
 }
