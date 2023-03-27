@@ -6,8 +6,7 @@ const Timer = (props) => {
     const [resetTime, setReset] = useState(props.data.seconds);
     const [timerStatus, setStatus] = useState(true);
     const [timerString, setTimerStr] = useState("00:00:00");
-    console.log(props.data)
-    const {volume} = useSettingsContext();
+    const {settings} = useSettingsContext();
     
     const resetTimeWithSeconds = (seconds) => {
         let timeNow = new Date();
@@ -30,7 +29,7 @@ const Timer = (props) => {
             if (timediff <= 0) {
                 setStatus(false);
                 var audio = new Audio("https://github.com/Merikrotti/rok_gathering_notifications/blob/main/src/ding.mp3?raw=true");
-                audio.volume = volume / 100;
+                audio.volume = settings.volume / 100;
                 audio.play();
                 return;
             }
@@ -62,7 +61,7 @@ const Timer = (props) => {
             clearInterval(itv);
         }
         return () => clearInterval(itv);
-    }, [timerStatus, volume, endTime])
+    }, [timerStatus, settings, endTime])
 
     const resetGather = () => {
         setStatus(true);
@@ -88,7 +87,6 @@ const Timer = (props) => {
 
     const onDepositReset = (e) => {
         let seconds = parseInt(e.target.value) * props.data.speedPerItem;
-        console.log(seconds);
         resetTimeWithSeconds(seconds);
     }
 
