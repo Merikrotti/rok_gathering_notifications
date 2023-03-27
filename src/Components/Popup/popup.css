@@ -20,8 +20,8 @@
 
 .closeButton {
   display: flex;
-  height: 2vw;
-  width: 3vw;
+  height: 2em;
+  width: 10em;
   justify-content: center;
   flex-direction: column;
   margin-left: auto;
