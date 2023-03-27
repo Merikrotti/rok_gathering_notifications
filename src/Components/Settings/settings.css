@@ -1,0 +1,55 @@
+.popupGearContainer {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    padding: 0px;
+    margin-right: 20px;
+    font-size: 55px;
+}
+
+.popupGearIcon {
+    color:grey;
+}
+
+.popupGearIcon:hover {
+    color: red;
+    cursor:pointer;
+}
+
+.settingsGroup {
+    display: flex;
+    flex-direction: column;
+    line-height: 5px;
+    width: 40vw;
+    min-width: 300px;
+}
+
+.settingsGroup h2 {
+    border-bottom: 1px solid gray;
+}
+
+.settingsGroup label {
+    display: flex;
+    flex-direction: row;
+
+}
+.settingsGroup button, input {
+    display: flex;
+    margin-left: auto;
+}
+
+.settingsItem {
+    line-height: normal;
+}
+
+.settingsItem p {
+    line-height: 20px;
+}
+
+.settingsItem label:last-of-type {
+    margin-top: 20px;
+}
+
+.settingsItem:last-of-type {
+    margin-bottom: 2vw;
+}

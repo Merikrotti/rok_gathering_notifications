@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
-import './App.css'
+import { useSettingsContext } from "../SettingsContext/SettingsContextBuilder";
 
 const Timer = (props) => {
     const [endTime, setTime] = useState(null);
-    const [resetTime, setReset] = useState(props.seconds);
+    const [resetTime, setReset] = useState(props.data.seconds);
     const [timerStatus, setStatus] = useState(true);
     const [timerString, setTimerStr] = useState("00:00:00");
+    console.log(props.data)
+    const {volume} = useSettingsContext();
     
     const resetTimeWithSeconds = (seconds) => {
         let timeNow = new Date();
@@ -16,7 +18,7 @@ const Timer = (props) => {
     }
 
     if(endTime === null) {
-        resetTimeWithSeconds(props.seconds);
+        resetTimeWithSeconds(props.data.seconds);
     }
 
     useEffect(() => {
@@ -28,7 +30,7 @@ const Timer = (props) => {
             if (timediff <= 0) {
                 setStatus(false);
                 var audio = new Audio("https://github.com/Merikrotti/rok_gathering_notifications/blob/main/src/ding.mp3?raw=true");
-                audio.volume = props.volume / 100;
+                audio.volume = volume / 100;
                 audio.play();
                 return;
             }
@@ -60,7 +62,7 @@ const Timer = (props) => {
             clearInterval(itv);
         }
         return () => clearInterval(itv);
-    }, [timerStatus, props.volume, endTime])
+    }, [timerStatus, volume, endTime])
 
     const resetGather = () => {
         setStatus(true);
@@ -85,7 +87,7 @@ const Timer = (props) => {
     }
 
     const onDepositReset = (e) => {
-        let seconds = parseInt(e.target.value) * props.reduction;
+        let seconds = parseInt(e.target.value) * props.data.speedPerItem;
         console.log(seconds);
         resetTimeWithSeconds(seconds);
     }
@@ -94,7 +96,7 @@ const Timer = (props) => {
 
     return (
     <div className="TimerContainer">
-        {props.name === "" ? <h2>No name</h2> : <h2>{props.name}</h2>}
+        {props.data.name === "" ? <h2>No name</h2> : <h2>{props.data.name}</h2>}
     <div className="Timer">
         <p>Time left: {timerString}</p>
         <div className="TimerControls">
@@ -133,11 +135,11 @@ const Timer = (props) => {
         <button onClick={addMarch} value={-10}>10</button>
         </div>
     </div>
-    {props.levels !== null ? <div className="TimerMath">
+    {props.data.type === "normal" ? <div className="TimerMath">
         <div><p>Deposit level reset: </p></div>
         <div className="TimerButtons">
-            {props.levels.map((item, index) => {
-                return <button onClick={onDepositReset} value={item[0]} key={"dl" + index}>{item[1]}</button>
+            {Object.entries(props.data.levels).map(([key, item], index) => {
+                return <button onClick={onDepositReset} value={item} key={key + item + index + timerString}>{key}</button>
             })}
         </div>
     </div>
