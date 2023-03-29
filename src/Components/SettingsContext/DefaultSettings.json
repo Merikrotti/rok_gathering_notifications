@@ -1,6 +1,4 @@
 {
-<<<<<<< HEAD
-=======
     "accounts": {
         "Default": {
             "timerPrefix": "Example",
@@ -22,7 +20,6 @@
             }
         }
     },
->>>>>>> 8a09dda (moved CSS, tech window)
     "middleware": {
         "isEnabled": false,
         "ipAddress": "localhost:8080"

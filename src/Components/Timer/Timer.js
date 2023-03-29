@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react"
 import { useSettingsContext } from "../SettingsContext/SettingsContextBuilder";
-<<<<<<< HEAD
-=======
-import "./TimerStyles.css";
->>>>>>> 8a09dda (moved CSS, tech window)
 
 const Timer = (props) => {
     const [endTime, setTime] = useState(null);
@@ -35,10 +31,7 @@ const Timer = (props) => {
                 var audio = new Audio("https://github.com/Merikrotti/rok_gathering_notifications/blob/main/src/ding.mp3?raw=true");
                 audio.volume = settings.volume / 100;
                 audio.play();
-<<<<<<< HEAD
-=======
                 setTimerStr("FINISHED");
->>>>>>> 8a09dda (moved CSS, tech window)
                 return;
             }
             let floatseconds = timediff / 1000;
@@ -101,17 +94,10 @@ const Timer = (props) => {
     
 
     return (
-<<<<<<< HEAD
-    <div className="TimerContainer">
-        {props.data.name === "" ? <h2>No name</h2> : <h2>{props.data.name}</h2>}
-    <div className="Timer">
-        <p>Time left: {timerString}</p>
-=======
     <div className="TimerContainer" style={{backgroundColor: timerString === "FINISHED" ? 'darkcyan' : 'darkred'}}>
         {props.data.name === "" ? <h2>No name</h2> : <h2>{props.data.name}</h2>}
     <div className="Timer">
         <p>Time left: <span style={{color: timerString === "FINISHED" ? 'darkred' : 'white'}}>{timerString}</span></p>
->>>>>>> 8a09dda (moved CSS, tech window)
         <div className="TimerControls">
         <button onClick={resetGather}>reset</button>
         <button onClick={stopGather}>stop</button>
