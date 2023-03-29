@@ -3,11 +3,8 @@ import AddTimer from "./Components/AddTimer";
 import CustomTimer from "./Components/CustomTimer";
 import { useState } from "react";
 import Timer from "./Timer"
-<<<<<<< HEAD
-=======
 import "./TimerStyles.css";
 
->>>>>>> 8a09dda (moved CSS, tech window)
 
 const TimerControls = (props) => {
     const [timers, setTimers] = useState([]);

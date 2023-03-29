@@ -29,11 +29,7 @@ const SettingsContextBuilder = (props) => {
         setChildren(_children);
         setpopupState(true);
     }
-<<<<<<< HEAD
-
-=======
     
->>>>>>> 8a09dda (moved CSS, tech window)
     return (<SettingsContext.Provider value={{popupState, children, settings,
         createPopup, changeSettings, closePopup}}>{props.children}</SettingsContext.Provider>)
 }
