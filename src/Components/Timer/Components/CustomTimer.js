@@ -1,4 +1,8 @@
 import { useState } from "react";
+<<<<<<< HEAD
+=======
+import "../TimerStyles.css";
+>>>>>>> 8a09dda (moved CSS, tech window)
 
 const CustomTimer = (props) => {
     const [name, setName] = useState("");

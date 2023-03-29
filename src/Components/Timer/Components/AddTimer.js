@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 import rssValues from "./resourcevalues.json";
+<<<<<<< HEAD
+=======
+import "../TimerStyles.css";
+
+>>>>>>> 8a09dda (moved CSS, tech window)
 
 //TODO split this application apart and comment.
 const AddTimer = (props) => {

@@ -1,4 +1,28 @@
 {
+<<<<<<< HEAD
+=======
+    "accounts": {
+        "Default": {
+            "timerPrefix": "Example",
+            "usePrefix": true,
+            "techBonuses": {
+                "Food": 0,
+                "Wood": 0,
+                "Stone": 0,
+                "Gold": 0,
+                "Gems": 0
+            },
+            "otherBonuses": 0,
+            "gatherers": {
+                "Sarka/Centurion": {
+                    "name": "S/C",
+                    "gathererBonus": 0,
+                    "isLevel25": true
+                }
+            }
+        }
+    },
+>>>>>>> 8a09dda (moved CSS, tech window)
     "middleware": {
         "isEnabled": false,
         "ipAddress": "localhost:8080"

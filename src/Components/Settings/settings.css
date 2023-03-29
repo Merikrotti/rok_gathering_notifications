@@ -31,8 +31,13 @@
 .settingsGroup label {
     display: flex;
     flex-direction: row;
+<<<<<<< HEAD
 
 }
+=======
+}
+
+>>>>>>> 8a09dda (moved CSS, tech window)
 .settingsGroup button, input {
     display: flex;
     margin-left: auto;
