@@ -1,0 +1,53 @@
+.BPopupContainer > p {
+    height: max-content;
+    line-height: 30px;
+}
+
+.BPopupContainer > h1 {
+    border-bottom: 5px dotted grey;
+}
+
+.BPopupContainer > div > h2 {
+    border-bottom: 3px solid grey;
+}
+
+.BPopupContainer > div > h3 {
+    border-bottom: 3px solid lightgrey;
+}
+
+.BPopupContainer {
+    overflow-y: auto;
+    word-break: break-word;
+    max-width: 40vw;
+    max-height: 85vh;
+    margin-bottom: 15px;
+    border: 5px solid grey;
+    border-radius: 20px;
+    padding: 5px
+}
+
+.BPopupMiddlewareWarning {
+    color: red;
+    display: flex;
+    flex-direction: column;
+    max-width: inherit;
+    margin-bottom: 20px;
+}
+.BPopupMiddlewareWarning > span:first-child {
+    font-weight: bold;
+    font-size:  x-large;
+    margin-bottom: 20px;
+}
+
+.BPopupMiddlewareWarning > span:nth-child(2) {
+    word-wrap: break-word;
+    
+}
+
+.BPopupMiddlewareWarning > span:last-child {
+    color:white;
+}
+
+.BPopupMiddlewareWarning > span:last-child > a {
+    filter: invert(1);
+}
