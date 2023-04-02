@@ -28,7 +28,7 @@ const Timer = (props) => {
 
             if (timediff <= 0) {
                 setStatus(false);
-                var audio = new Audio("https://github.com/Merikrotti/rok_gathering_notifications/blob/main/src/ding.mp3?raw=true");
+                var audio = new Audio(process.env.PUBLIC_URL + "/github.png");
                 audio.volume = settings.volume / 100;
                 audio.play();
                 setTimerStr("FINISHED");

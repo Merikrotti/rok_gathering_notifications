@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useSettingsContext } from "../../../SettingsContext/SettingsContextBuilder";
+import "./TechBonuses.css"
 
 const TechBonuses = (props) => {
     //Load settings
-    const {settings} = useSettingsContext();
+    const {settings, changeSettings} = useSettingsContext();
 
     //Account hooks:
     const [name, setName] = useState(null);
     const [prefix, setPrefix] = useState("");
-    const [usePrefix, setUseSpefix] = useState(false);
+    const [usePrefix, setUsePrefix] = useState(false);
 
     //Account bonus hooks
     const [food, setFood] = useState(0);
@@ -41,7 +42,7 @@ const TechBonuses = (props) => {
         //Account details
         setName(props.name);
         setPrefix(account.timerPrefix);
-        setUseSpefix(account.usePrefix);
+        setUsePrefix(account.usePrefix);
 
         //Tech bonuses
         let bonuses = account.techBonuses;
@@ -61,46 +62,78 @@ const TechBonuses = (props) => {
         </div>)
     }
 
+    // Check if the name has changed, remove if it has and send the current settings to settings provider.
+    const onSave = () => {
+
+        //Try parsing, on fail alert user
+        //On success, update settings.
+        try {
+            let newSettings = {
+                name: {
+                    "timerPrefix": prefix,
+                    "usePrefix": usePrefix,
+                    "techBonuses": {
+                        "Food": parseInt(food),
+                        "Wood": parseInt(wood),
+                        "Stone": parseInt(stone),
+                        "Gold": parseInt(gold),
+                        "Gems": parseInt(gems)
+                    },
+                    "otherBonuses": parseInt(otherBonuses),
+                    "gatherers": props.accounts[props.name].gatherers
+                }
+            }
+            let tempSettings = settings;
+            delete tempSettings.accounts[props.name];
+            tempSettings.accounts.dumps(newSettings);
+
+            changeSettings(tempSettings);
+        } catch {
+            alert("Some settings are not proper. Check the inputs.")
+            return;
+        }
+    }
+
     return (
         <div className="TechContainer">
             <h1>Technology bonuses</h1>
-            <div>
+            <div className="TechForm">
                 <h2>Account details</h2>
                 <label>Name:
-                    <input value={name} type="text"></input>
+                    <input value={name} onChange={(e) => setName(e.target.value)} type="text"></input>
                 </label>
                 <label>Prefix:
-                    <input value={prefix} type="text"></input>
+                    <input value={prefix} onChange={(e) => setPrefix(e.target.value)} type="text"></input>
                 </label>
                 <label>Use prefix:
-                    <input checked={usePrefix} type="checkbox"></input>
+                    <input checked={usePrefix} onChange={(e) => setUsePrefix(e.target.value)} type="checkbox"></input>
                 </label>
             </div>
             <div className="TechForm">
                 <h2>Account bonuses</h2>
                 <label>Food:
-                    <input value={food} type="text"></input>
+                    <input value={food} min="0" onChange={(e) => setFood(e.target.value)} type="number"></input>
                 </label>
                 <label>Wood:
-                    <input value={wood} type="text"></input>
+                    <input value={wood} min="0" onChange={(e) => setWood(e.target.value)} type="number"></input>
                 </label>
                 <label>Stone:
-                    <input value={stone} type="text"></input>
+                    <input value={stone} min="0" onChange={(e) => setStone(e.target.value)} type="number"></input>
                 </label>
                 <label>Gold:
-                    <input value={gold} type="text"></input>
+                    <input value={gold} min="0" onChange={(e) => setGold(e.target.value)} type="number"></input>
                 </label>
                 <label>Gems:
-                    <input value={gems} type="text"></input>
+                    <input value={gems} min="0" onChange={(e) => setGems(e.target.value)} type="number"></input>
                 </label>
             </div>
-            <div>
+            <div className="TechForm">
                 <h2>Other bonuses</h2>
                 <label>Percentage:
-                    <input value={otherBonuses} type="text"></input>
+                    <input value={otherBonuses} min="0" onChange={(e) => setOtherBonuses(e.target.value)} type="number"></input>
                 </label>
             </div>
-            <button>Save</button>
+            <button onClick={onSave}>Save</button>
         </div>
     );
 }

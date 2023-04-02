@@ -5,6 +5,7 @@ const BonusesPopup = () => {
         <div>
             <h2>Creating a new account</h2>
             <p>This is so your tech speed and alliance speed bonuses will stay the same on all accounts and not all accounts.</p>
+            <p>You can change the names of your profiles in the tech speed window</p>
             <p>Will also make multiple gathering profiles easier to manage!</p>
         </div>
         <div>
@@ -17,6 +18,14 @@ const BonusesPopup = () => {
             <h2>Can you save these?</h2>
             <p>You can currently save whem by pressing "Export" on the settings screen, next to the GitHub icon.</p>
             <p>To load them, press "Import" and select the settings file.</p>
+        </div>
+        <div>
+            <h2>Pitfalls</h2>
+            <p>The tech speeds found by clicking your CH are everything active currently.</p>
+            <p>Example:</p>
+            <p>You have the 50% active boost, it shows in the City Hall statistics, include it either in "Other Boosts"</p>
+            <p>or include it into the Food/Wood, etc. Otherwise you will have "too much boost" and the timer will be</p>
+            <p>inaccurate more than it already is.</p>
         </div>
     </div>);
 }
