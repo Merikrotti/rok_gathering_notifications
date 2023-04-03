@@ -4,6 +4,8 @@ import CustomTimer from "./Components/CustomTimer";
 import { useState } from "react";
 import Timer from "./Timer"
 import "./TimerStyles.css";
+import TimerFilter from "./TimerFilter";
+import SelectAccount from "./SelectAccount";
 
 
 const TimerControls = (props) => {
@@ -20,20 +22,26 @@ const TimerControls = (props) => {
     }
     return (
     <div>
-        
+    <div>
         {isCustom ?
         <div className="TimerForms">
             <CustomTimer setCustom={setCustom} addTime={addTime}/>
         </div>
         :
-        <div className="TimerForms">
-            <AddTimer addTime={addTime} gatherers={gatherers} setCustom={setCustom}/>
-            <AddBonuses addGatherer={addGatherer}/>
+        <div className="TimerFormsContainer">
+            <SelectAccount/>
+            <div className="TimerForms">
+                <AddTimer addTime={addTime} gatherers={gatherers} setCustom={setCustom}/>
+                <AddBonuses addGatherer={addGatherer}/>
+            </div>
         </div>
         }
+        <TimerFilter>
         <div className="TimersContainer">
             {timers.map((item, index) => <Timer key={index} data={item}/>)}
         </div>
+        </TimerFilter>
+    </div>
     </div>
     );
 }

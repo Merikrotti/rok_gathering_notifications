@@ -32,10 +32,10 @@ const AddBonuses = (props) => {
         createPopup(<TechBonuses name={selectedAccount}/>);
     }
 
-    return (<div className="BonusAdder">
-        <div className="AdderSpaceBetween">
+    return (<div className="TimerFormsStyle">
+        <div className="TitleAlign">
             <h2>Reduction settings</h2>
-            <button href="#" onClick={(e) => onPopupClick(e)}>Help</button>
+            <button onClick={(e) => onPopupClick(e)}>Help</button>
         </div>
         <label>Account:
             <select value={selectedAccount} onChange={(e) => setAccount(e.target.value)}>

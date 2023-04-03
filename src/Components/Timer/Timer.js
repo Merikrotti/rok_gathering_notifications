@@ -26,9 +26,9 @@ const Timer = (props) => {
             let timeNow = new Date();
             let timediff = endTime - timeNow;
 
-            if (timediff <= 0) {
+            if (timediff < 1000) {
                 setStatus(false);
-                var audio = new Audio(process.env.PUBLIC_URL + "/github.png");
+                var audio = new Audio(process.env.PUBLIC_URL + "/ding.mp3");
                 audio.volume = settings.volume / 100;
                 audio.play();
                 setTimerStr("FINISHED");
@@ -57,7 +57,7 @@ const Timer = (props) => {
             return itgr + "";
         }
 
-        const itv = setInterval(() => setTime(), 200);
+        const itv = setInterval(() => setTime(), 100);
         if(!timerStatus) {
             clearInterval(itv);
         }

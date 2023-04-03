@@ -5,7 +5,6 @@ import "../TimerStyles.css";
 
 //TODO split this application apart and comment.
 const AddTimer = (props) => {
-
     //Hooks
     const [name, setName] = useState("");
     const [seconds, setSeconds] = useState(0);
@@ -83,9 +82,10 @@ const AddTimer = (props) => {
     }
 
     return (
-    <div className="TimerAdder"><h2>Add timer ({timeStr})</h2>
+    <div className="TimerFormsStyle">
+    <h2>Add timer ({timeStr})</h2>
     <label>Gatherer ({Math.round(speedReduction * 100)} %):
-        {props.gatherers.length <= 0 ? <span>Create a gatherer first</span> : 
+        {props.gatherers.length <= 0 ? <span id="warning">Create a gatherer first</span> : 
         <select onChange={onGathererChange} id="name">
             <option/>
             {props.gatherers.map((item, index) => {
@@ -97,21 +97,21 @@ const AddTimer = (props) => {
     <input type="text" id="name" value={name} onInput={e => setName(e.target.value)}></input>
     </label>
     <label>Deposit type:
-            <select className="rssSelection" onChange={onDepositChange} disabled={!allow} value={selectedRss}>
+            <select onChange={onDepositChange} disabled={!allow} value={selectedRss}>
                 {Object.keys(rssValues).map((key, i) => {
                     return <option value={key} key={key + i}>{key}</option>
                 })}
             </select>
     </label>
     <label>Deposit level:
-            <select className="rssSelection" disabled={!allow} onChange={onRssSelectionChange}>
+            <select disabled={!allow} onChange={onRssSelectionChange}>
                 {Object.entries(rssValues[selectedRss]["Levels"]).map(([key, item], index) => {
                     return <option value={item} key={key+selectedRss}>Level {key}</option>
                 })}
             </select>
     </label>
-    <div>
-        <button id="custombutton" onClick={() => props.setCustom(true)}>Use custom timers</button>
+    <div className="ButtonAlign">
+        <button onClick={() => props.setCustom(true)}>Use custom timers</button>
         <button disabled={!allow} onClick={onSubmit}>Add</button>
     </div>
     </div>);
