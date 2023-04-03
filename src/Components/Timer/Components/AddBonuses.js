@@ -5,10 +5,6 @@ import "../TimerStyles.css";
 import TechBonuses from "./Popups/TechBonuses";
 
 const AddBonuses = (props) => {
-    const {settings} = useSettingsContext();
-
-    const [selectedAccount, setAccount] = useState(Object.keys(settings.accounts)[0]);
-
     const [gathererName, setGathererName] = useState("");
     const [gathererSpeed, setGathererSpeed] = useState(0);
     const [techSpeed, setTechSpeed] = useState(0);
@@ -28,8 +24,7 @@ const AddBonuses = (props) => {
     }
 
     const onTSWindowClick = () => {
-        console.log(selectedAccount)
-        createPopup(<TechBonuses name={selectedAccount}/>);
+        createPopup(<TechBonuses name={props.selectedAccount}/>);
     }
 
     return (<div className="TimerFormsStyle">
@@ -37,13 +32,6 @@ const AddBonuses = (props) => {
             <h2>Reduction settings</h2>
             <button onClick={(e) => onPopupClick(e)}>Help</button>
         </div>
-        <label>Account:
-            <select value={selectedAccount} onChange={(e) => setAccount(e.target.value)}>
-                {Object.keys(settings.accounts).map((item, index) => {
-                    return <option value={item} key={item+index}>{item}</option>
-                })}
-            </select>
-        </label>
         <label>Name:
             <input type="text" id="name" onInput={e => setGathererName(e.target.value)}></input>
         </label>
@@ -56,7 +44,9 @@ const AddBonuses = (props) => {
         <label>+25% Talent
             <input type="checkbox" checked={talent} onChange={() => setTalent(!talent)} id="TimerCheckbox"></input>
         </label>
-        <button onClick={addGatherer}>Add</button>
+        <div className="BonusAdd">
+            <button id="add" onClick={addGatherer}>Add</button>
+        </div>
     </div>)
 }
 

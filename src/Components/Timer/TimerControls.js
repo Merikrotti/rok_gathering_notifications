@@ -12,6 +12,7 @@ const TimerControls = (props) => {
     const [timers, setTimers] = useState([]);
     const [gatherers, setGatherers] = useState([]);
     const [isCustom, setCustom] = useState(false);
+    const [selectedAccount, setSelectedAccount] = useState();
 
     const addTime = (values) => {
         setTimers(a => [...a, values]);
@@ -24,14 +25,16 @@ const TimerControls = (props) => {
     <div>
     <div>
         {isCustom ?
-        <div className="TimerForms">
+        <div className="TimerFormsContainer">
+            <SelectAccount setSelectedAccount={setSelectedAccount}/>
             <CustomTimer setCustom={setCustom} addTime={addTime}/>
         </div>
         :
         <div className="TimerFormsContainer">
-            <SelectAccount/>
-            <AddTimer addTime={addTime} gatherers={gatherers} setCustom={setCustom}/>
-            <AddBonuses addGatherer={addGatherer}/>
+            <SelectAccount setSelectedAccount={setSelectedAccount}/>
+            <div/>
+            <AddTimer addTime={addTime} gatherers={gatherers} selectedAccount={selectedAccount} setCustom={setCustom}/>
+            <AddBonuses selectedAccount={selectedAccount} addGatherer={addGatherer}/>
         </div>
         }
         <TimerFilter>

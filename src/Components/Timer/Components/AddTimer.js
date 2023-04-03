@@ -112,7 +112,7 @@ const AddTimer = (props) => {
     </label>
     <div className="ButtonAlign">
         <button onClick={() => props.setCustom(true)}>Use custom timers</button>
-        <button disabled={!allow} onClick={onSubmit}>Add</button>
+        <button id="add" disabled={!allow} onClick={onSubmit}>Add</button>
     </div>
     </div>);
 }

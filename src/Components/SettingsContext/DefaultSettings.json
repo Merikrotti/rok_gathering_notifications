@@ -1,7 +1,7 @@
 {
     "accounts": {
         "Default": {
-            "timerPrefix": "Example",
+            "prefix": "DEF",
             "usePrefix": true,
             "techBonuses": {
                 "Food": 0,
