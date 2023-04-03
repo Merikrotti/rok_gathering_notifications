@@ -1,6 +1,5 @@
 import "./BPopup.css";
 import "../../../GlobalStyles/Example.css";
-import Settings from "../../../SettingsContext/DefaultSettings.json";
 import { useSettingsContext } from "../../../SettingsContext/SettingsContextBuilder";
 import { useState } from "react";
 
