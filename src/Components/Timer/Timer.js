@@ -7,6 +7,8 @@ const Timer = (props) => {
     const [timerStatus, setStatus] = useState(true);
     const [timerString, setTimerStr] = useState("00:00:00");
     const {settings} = useSettingsContext();
+
+    const [isFiltered, setFiltered] = useState(false);
     
     const resetTimeWithSeconds = (seconds) => {
         let timeNow = new Date();
@@ -20,7 +22,28 @@ const Timer = (props) => {
         resetTimeWithSeconds(props.data.seconds);
     }
 
+    //Updates parent with new data
+    const updateParent = (data) => {
+        props.updateStatus(props.pKey, data);
+    }
+
+    const checkFilterStatus = () => {
+        if(props.filteredTimers.indexOf(props.pKey) !== -1) {
+            setFiltered(true);
+        } else {
+            setFiltered(false);
+        }
+    }
+
     useEffect(() => {
+        //Default response to parent updateStatus function
+        const defaultFilterResponse = {
+            "type": props.data.type,
+            "status": "active",
+            "account": props.data.account,
+            "isFinished": false
+        }
+
         const setTime = () => {
 
             let timeNow = new Date();
@@ -32,6 +55,12 @@ const Timer = (props) => {
                 audio.volume = settings.volume / 100;
                 audio.play();
                 setTimerStr("FINISHED");
+                
+                //Update status for filter
+                let filterResponse = defaultFilterResponse;
+                filterResponse.isFinished = true;
+                updateParent(filterResponse);
+
                 return;
             }
             let floatseconds = timediff / 1000;
@@ -58,11 +87,18 @@ const Timer = (props) => {
         }
 
         const itv = setInterval(() => setTime(), 100);
+
+        //If timer is running, update filter parent data.
+        if(timerStatus) {
+            updateParent(defaultFilterResponse);
+        }
+
         if(!timerStatus) {
             clearInterval(itv);
         }
+        checkFilterStatus();
         return () => clearInterval(itv);
-    }, [timerStatus, settings, endTime])
+    }, [timerStatus, settings, endTime, props.filteredTimers, updateParent, checkFilterStatus])
 
     const resetGather = () => {
         setStatus(true);
@@ -80,6 +116,16 @@ const Timer = (props) => {
 
     const remove = () => {
         setStatus(null);
+
+        //Update filter parent to know that this timer is removed.
+        let newTimer = {
+            "type": props.data.type,
+            "status": "removed",
+            "account": props.data.account,
+            "isFinished": false
+        }
+
+        updateParent(newTimer);
     }
 
     if(timerStatus === null) {
@@ -94,7 +140,7 @@ const Timer = (props) => {
     
 
     return (
-    <div className="TimerContainer" style={{backgroundColor: timerString === "FINISHED" ? 'darkcyan' : 'darkred'}}>
+    <div className="TimerContainer" style={{backgroundColor: timerString === "FINISHED" ? 'darkcyan' : 'darkred'}} hidden={isFiltered}>
         {props.data.name === "" ? <h2>No name</h2> : <h2>{props.data.name}</h2>}
     <div className="Timer">
         <p>Time left: <span style={{color: timerString === "FINISHED" ? 'darkred' : 'white'}}>{timerString}</span></p>

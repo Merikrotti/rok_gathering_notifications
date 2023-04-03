@@ -73,6 +73,7 @@ const AddTimer = (props) => {
         let data = {
             "type": "normal",
             "name": name,
+            "account": props.selectedAccount,
             "seconds": seconds,
             levels,
             "speedPerItem": speedPerItem,

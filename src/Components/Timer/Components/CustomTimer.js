@@ -14,6 +14,7 @@ const CustomTimer = (props) => {
         let data = {
             "type": "custom",
             "name": name === "" ? "Custom timer" : name,
+            "account": linkToAccount ? props.selectedAccount : "Custom Timer",
             "seconds": _seconds
         }
 
