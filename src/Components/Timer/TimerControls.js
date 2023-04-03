@@ -30,10 +30,8 @@ const TimerControls = (props) => {
         :
         <div className="TimerFormsContainer">
             <SelectAccount/>
-            <div className="TimerForms">
-                <AddTimer addTime={addTime} gatherers={gatherers} setCustom={setCustom}/>
-                <AddBonuses addGatherer={addGatherer}/>
-            </div>
+            <AddTimer addTime={addTime} gatherers={gatherers} setCustom={setCustom}/>
+            <AddBonuses addGatherer={addGatherer}/>
         </div>
         }
         <TimerFilter>

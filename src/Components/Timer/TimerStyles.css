@@ -1,31 +1,40 @@
 .TimerFormsContainer {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: max-content;
   padding: 20px;
-}
-
-.TimerFormsContainer > div:first-child {
-  flex-basis: 100%;
-}
-
-.TimerForms {
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  margin-top: 20px;
-  min-width: 400px;
   flex-wrap: wrap;
+  max-width: max-content;
+  gap: 15px
+}
+.TimerFormsContainer > div:first-child {
+  flex: 100% 0 0;
+  margin-bottom: 5px;
 }
 
-.TimerForms > div > label {
+.TimerFormsContainer > div:not(:first-child) {
+  margin-bottom: 20px;
+}
+
+.TimerFormsContainer > div:nth-child(2)  {
+  flex: 45% 1 1;
+  min-width: 20em;
+  width: 25em;
+}
+
+.TimerFormsContainer > div:nth-child(3) {
+  flex: 45% 1 1;
+  min-width: 20em;
+  width: 25em;
+}
+
+
+.TimerFormsStyle > label {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.TimerForms > div > label > * {
+.TimerFormsStyle > label > * {
   margin-left: 2em;
 }
 
