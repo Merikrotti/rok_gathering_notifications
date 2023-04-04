@@ -1,0 +1,128 @@
+.FiltersContainer {
+    margin-left: 20px;
+    max-width: max-content;
+}
+
+.Filters {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(46, 79, 100);
+    border-radius: 10px;
+    width: 24.5em;
+    padding: 10px;
+    box-shadow: 5px 10px;
+}
+
+.Filters > div:first-of-type {
+    flex: 1 1 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 0.3;
+    border-bottom: 2px solid grey;
+}
+
+.Filters > div:first-of-type > * {
+    flex: 1;
+    height: max-content;
+    
+}
+
+.Filters > div {
+    display: flex;
+    gap: 0 10px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    flex: 1 1 100%;
+}
+.Filters > div > h3 {
+    flex: 1 1 100%;
+}
+.Filters > div > button {
+    flex: 1 1 60%;
+    max-width: max-content;
+}
+
+.CustomButton {
+    border: 0;
+    padding: 6px 20px;
+    border-radius: 15px;
+    text-align: center;
+    text-shadow: 2px 2px 2px black;
+    color: white;
+    box-shadow: inset 3px 3px 3px rgba(235, 163, 163, 0.6), inset -3px -3px 3px rgba(80, 80, 80, 0.9);
+}
+
+.CustomButton:active {
+    box-shadow: inset 3px 3px 3px rgba(80, 80, 80, 0.9), inset -3px -3px 3px rgba(235, 163, 163, 0.6);
+}
+
+.CustomButton:hover {
+    color:grey;
+}
+
+#active {
+    background-color: rgb(230, 0, 0);
+}
+
+#active:hover {
+    background-color: rgb(200, 0, 0);
+}
+#disabled {
+    background-color: rgb(128, 128, 128);
+}
+#disabled:hover {
+    background-color: rgb(100, 100, 100);
+}
+
+
+
+.Timers {
+    display: flex;
+    margin-top: 10px;
+    border-radius: 20px;
+    width: max-content;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    line-height: 5px;
+}
+
+.Timers > h2 {
+    align-self: center;
+    height: 0px;
+}
+
+.Timers > div {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 0 20px;
+    max-height: max-content;
+}
+
+.TimerButtons {
+    display: flex;
+    gap: 0 10px;
+}
+
+.TimerButtons > * {
+    width: 30px;
+    height: 30px;
+}
+
+.TimerControls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.TimerControls > div {
+    display: flex;
+    gap: 0 10px;
+}
+
+.TimerControls > div > * {
+    width: 60px;
+    height: 30px;
+}

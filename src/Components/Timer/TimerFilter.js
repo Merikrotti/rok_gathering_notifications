@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Timer from "./Timer";
+import "./FilterStyles.css";
 
 const TimerFilter = (props) => {
 
@@ -9,6 +10,8 @@ const TimerFilter = (props) => {
     const [filteredTimers, setFilteredTimers] = useState([]);
 
     const [isFinishedFilter, setIsFinished] = useState(false);
+
+    const [hideFilters, setHide] = useState(false);
 
     useEffect(() => {
         let uniques = []
@@ -63,16 +66,30 @@ const TimerFilter = (props) => {
 
         console.log(filters);
     }
+    if(timers === {}) {
+        return;
+    }
 
-    return (<div>
-        <div className="TimerFilter">
+    return (<div className="TimersContainer">
+        {!hideFilters ?
+        <div className="FiltersContainer">
             <div className="Filters">
-                <p>Filters:</p>
-                {unique.map((item, index) => <button key={item+index} onClick={(e) => filterUsed(e)} value={item}>{item}</button>)}
-                {timers === {} ? "" : <button onClick={() => setIsFinished(!isFinishedFilter)} value="finished">Finished</button>}
+                <div>
+                    <h2>Filters</h2>
+                    <button className="CustomButton" id="active" onClick={() => setHide(!hideFilters)}>Hide Filters</button>
+                </div>
+                <div classname="AccountFilters">
+                    <h3>Account filters</h3>
+                    {unique.map((item, index) => <button className="CustomButton" id={filters.indexOf(item) > -1 ? 'active' : 'disabled'} key={item+index} onClick={(e) => filterUsed(e)} value={item}>{item}</button>)}
+                </div>
+                <div className="SetFilters">
+                    <h3>Set filters</h3>
+                    <button className="CustomButton" id={isFinishedFilter ? 'active' : 'disabled'} onClick={() => setIsFinished(!isFinishedFilter)} value="finished">Finished</button>
+                </div>
             </div>
         </div>
-        <div className="TimersContainer">
+        : <button className="CustomButton" id="disabled" style={{position: "absolute", right: "30px", top: "40px"}} onClick={() => setHide(!hideFilters)}>Show filters</button>}
+        <div className="Timers">
             {props.timers.map((item, index) => {
                 return <Timer key={item.account + index} pKey={item.account + index} filteredTimers={filteredTimers} updateStatus={updateStatus} data={item}/>;
             })}

@@ -140,17 +140,17 @@ const Timer = (props) => {
     
 
     return (
-    <div className="TimerContainer" style={{backgroundColor: timerString === "FINISHED" ? 'darkcyan' : 'darkred'}} hidden={isFiltered}>
+    <div className="Timers" style={{backgroundColor: timerString === "FINISHED" ? 'darkcyan' : 'darkred'}} hidden={isFiltered}>
         {props.data.name === "" ? <h2>No name</h2> : <h2>{props.data.name}</h2>}
-    <div className="Timer">
+    <div className="TimerControls">
         <p>Time left: <span style={{color: timerString === "FINISHED" ? 'darkred' : 'white'}}>{timerString}</span></p>
-        <div className="TimerControls">
+        <div>
         <button onClick={resetGather}>reset</button>
         <button onClick={stopGather}>stop</button>
         <button onClick={remove}>remove</button>
         </div>
     </div>
-    <div className="TimerMath">
+    <div>
         <p>Add time: </p>
         <div className="TimerButtons">
         <button onClick={addMarch} value={1}>1</button>
@@ -165,7 +165,7 @@ const Timer = (props) => {
         <button onClick={addMarch} value={10}>10</button>
         </div>
     </div>
-    <div className="TimerMath">
+    <div>
         <div><p>Subtract time: </p></div>
         <div className="TimerButtons">
         <button onClick={addMarch} value={-1}>1</button>
@@ -180,7 +180,7 @@ const Timer = (props) => {
         <button onClick={addMarch} value={-10}>10</button>
         </div>
     </div>
-    {props.data.type === "normal" ? <div className="TimerMath">
+    {props.data.type === "normal" ? <div>
         <div><p>Deposit level reset: </p></div>
         <div className="TimerButtons">
             {Object.entries(props.data.levels).map(([key, item], index) => {
