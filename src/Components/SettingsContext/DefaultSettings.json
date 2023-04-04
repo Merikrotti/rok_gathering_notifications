@@ -13,9 +13,8 @@
             "otherBonuses": 0,
             "gatherers": {
                 "Sarka/Centurion": {
-                    "name": "S/C",
                     "gathererBonus": 0,
-                    "isLevel25": true
+                    "talent25": true
                 }
             }
         }

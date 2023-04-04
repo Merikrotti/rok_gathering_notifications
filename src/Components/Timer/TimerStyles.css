@@ -42,6 +42,33 @@
   box-shadow: 5px 10px;
 }
 
+.TimerFormsStyle > .WindowPopups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.TimerFormsStyle > .WindowPopups > * {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.TimerFormsStyle > .SelectAccount {
+  display: flex;
+  flex-direction: column;
+}
+
+.TimerFormsStyle > .SelectAccount > * {
+  display: flex;
+  justify-content: space-between;
+}
+
+.TimerFormsStyle > .WindowPopups > * > button{
+  height: 40px;
+  width: 60px;
+}
+
 .TimerFormsContainer > div > label {
   display: flex;
   flex-direction: row;

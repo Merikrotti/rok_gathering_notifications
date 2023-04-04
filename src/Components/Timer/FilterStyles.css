@@ -123,6 +123,6 @@
 }
 
 .TimerControls > div > * {
-    width: 60px;
+    flex: 1 1 auto;
     height: 30px;
 }

@@ -41,7 +41,7 @@ const TechBonuses = (props) => {
 
         //Account details
         setName(props.name);
-        setPrefix(account.timerPrefix);
+        setPrefix(account.prefix);
         setUsePrefix(account.usePrefix);
 
         //Tech bonuses
@@ -69,27 +69,23 @@ const TechBonuses = (props) => {
         //On success, update settings.
         try {
             let newSettings = {
-                name: {
-                    "timerPrefix": prefix,
-                    "usePrefix": usePrefix,
-                    "techBonuses": {
-                        "Food": parseInt(food),
-                        "Wood": parseInt(wood),
-                        "Stone": parseInt(stone),
-                        "Gold": parseInt(gold),
-                        "Gems": parseInt(gems)
-                    },
-                    "otherBonuses": parseInt(otherBonuses),
-                    "gatherers": props.accounts[props.name].gatherers
-                }
+                "prefix": prefix,
+                "usePrefix": usePrefix,
+                "techBonuses": {
+                    "Food": parseInt(food),
+                    "Wood": parseInt(wood),
+                    "Stone": parseInt(stone),
+                    "Gold": parseInt(gold),
+                    "Gems": parseInt(gems)
+                },
+                "otherBonuses": parseInt(otherBonuses),
+                "gatherers": settings.accounts[props.name].gatherers
             }
-            let tempSettings = settings;
-            delete tempSettings.accounts[props.name];
-            tempSettings.accounts.dumps(newSettings);
-
-            changeSettings(tempSettings);
-        } catch {
+            delete settings.accounts[props.name];
+            settings.accounts[name] = newSettings;
+        } catch (e) {
             alert("Some settings are not proper. Check the inputs.")
+            console.log(e);
             return;
         }
     }
@@ -99,8 +95,8 @@ const TechBonuses = (props) => {
             <h1>Technology bonuses</h1>
             <div className="TechForm">
                 <h2>Account details</h2>
-                <label>Name:
-                    <input value={name} onChange={(e) => setName(e.target.value)} type="text"></input>
+                <label>Name (TODO: handle name change):
+                    <input value={name} disabled={true} onChange={(e) => setName(e.target.value)} type="text"></input>
                 </label>
                 <label>Prefix:
                     <input value={prefix} onChange={(e) => setPrefix(e.target.value)} type="text"></input>

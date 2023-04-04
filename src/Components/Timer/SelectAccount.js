@@ -9,9 +9,12 @@ const SelectAccount = (props) => {
         props.setSelectedAccount(selectedAccount);
     }, [selectedAccount, props.setSelectedAccount]);
 
+
     return (
     <div className="TimerFormsStyle">
         <h2>Select account</h2>
+        {Object.keys(settings.accounts).length > 0 ?
+        <div className="SelectAccount">
         <label>Account:
             <select value={selectedAccount} onChange={(e) => setAccount(e.target.value)}>
                 {Object.keys(settings.accounts).map((item, index) => {
@@ -22,6 +25,10 @@ const SelectAccount = (props) => {
         <label style={{marginTop: "10px"}}>Selected:
            <span style={{color: "darkgrey", fontWeight: "bold", marginRight: "10px"}}>{settings.accounts[selectedAccount].usePrefix ? <span style={{color: "magenta"}}>[{settings.accounts[selectedAccount].prefix}]</span> : ""} {selectedAccount}</span>
         </label>
+        </div>
+        :
+        <p id="warning">No accounts. Create an account first.</p>
+        }
     </div>);
 }
 

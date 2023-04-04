@@ -25,7 +25,6 @@ const TimerFilter = (props) => {
     }, [timers, setUnique])
 
     useEffect(() => {
-        console.log(filters);
         let newFilters = [];
         Object.keys(timers).forEach((key) => {
             if(timers[key].status === "removed") {
@@ -33,7 +32,6 @@ const TimerFilter = (props) => {
             }
             if(isFinishedFilter) {
                 if(timers[key].isFinished === true && (filters.indexOf(timers[key].account) > -1 || filters.length <= 0)) {
-                    console.log("true");
                     return;
                 }
             } else if(filters.indexOf(timers[key].account) > -1 || filters.length <= 0) {
@@ -41,7 +39,6 @@ const TimerFilter = (props) => {
             }
             newFilters.push(key);
         });
-        console.log(newFilters);
         setFilteredTimers(newFilters);
     }, [setFilteredTimers, filters, timers, isFinishedFilter])
 
@@ -62,9 +59,6 @@ const TimerFilter = (props) => {
             setFilters(filters.filter(item => item !== e.target.value));
         }
 
-        console.log(indexOf + " " + filters);
-
-        console.log(filters);
     }
     if(timers === {}) {
         return;
@@ -78,7 +72,7 @@ const TimerFilter = (props) => {
                     <h2>Filters</h2>
                     <button className="CustomButton" id="active" onClick={() => setHide(!hideFilters)}>Hide Filters</button>
                 </div>
-                <div classname="AccountFilters">
+                <div className="AccountFilters">
                     <h3>Account filters</h3>
                     {unique.map((item, index) => <button className="CustomButton" id={filters.indexOf(item) > -1 ? 'active' : 'disabled'} key={item+index} onClick={(e) => filterUsed(e)} value={item}>{item}</button>)}
                 </div>

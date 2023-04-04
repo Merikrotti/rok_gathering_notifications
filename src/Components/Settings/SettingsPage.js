@@ -30,7 +30,7 @@ const SettingsPage = () => {
     const createAccount = () => {
         let accountData = 
         {
-            "timerPrefix": accountName,
+            "prefix": "none",
             "usePrefix": false,
             "techBonuses": {
                 "Food": 0,
@@ -43,10 +43,11 @@ const SettingsPage = () => {
             "gatherers": {
             }
         }
-        let temp = newSettings;
-        temp.accounts[accountName] = accountData;
-        setNewSettings(temp);
-        //settings.accounts.dumps(newAccount);
+        if(settings.accounts[accountName]) {
+            alert("Account already exists");
+            return;
+        }
+        settings.accounts[accountName] = accountData;
     }
     
     return (<div className="settingsGroup">
@@ -60,14 +61,14 @@ const SettingsPage = () => {
             <button onClick={createAccount}>Create</button>
         </div>
         <div className="settingsItem">
-            <h2>Remove account</h2>
+            <h2>Remove account (TODO)</h2>
             <select>
                 {Object.keys(settings.accounts).map((key, index) => {
                     return <option value={key} key={"a-rm" + index+key}>{key}</option>
                 })}
             </select>
             <p style={{color: "red"}}>Note: This is unrecoverable</p>
-            <button>Remove</button>
+            <button disabled={true}>Remove</button>
         </div>
         <div className="settingsItem">
             <h2>Middleware (unf)</h2> <span>For now, you can only see responses.</span>
