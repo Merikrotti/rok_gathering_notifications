@@ -64,7 +64,7 @@ const AddTimer = (props) => {
         let percentageReduction = 1 + parseInt(gatherer.gathererBonus) / 100 + parseInt(otherReductions) / 100 + isTalent25;
         
         if(selectedSGatherer !== "") {
-            console.log(selectedSGatherer)
+
             let sGatherer = cAccount.gatherers[selectedSGatherer];
             let reduction = sGatherer.gathererBonus / 100;
 
