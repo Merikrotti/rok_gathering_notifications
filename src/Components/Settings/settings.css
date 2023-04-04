@@ -31,8 +31,8 @@
 .settingsGroup label {
     display: flex;
     flex-direction: row;
-
 }
+
 .settingsGroup button, input {
     display: flex;
     margin-left: auto;

@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
 import rssValues from "./resourcevalues.json";
+import "../TimerStyles.css";
+import { useSettingsContext } from "../../SettingsContext/SettingsContextBuilder";
+
 
 //TODO split this application apart and comment.
 const AddTimer = (props) => {
 
+    const {settings} = useSettingsContext();
+
     //Hooks
     const [name, setName] = useState("");
-    const [seconds, setSeconds] = useState(0);
     const [allow, setAllow] = useState(false);
     const [timeStr, setTimeStr] = useState("00:00:00");
-
     const [speedReduction, setReduction] = useState(0);
 
+    const [selectedGatherer, setGatherer] = useState();
+    const [selectedSGatherer, setSGatherer] = useState("");
     const [selectedRss, setSelectedRss] = useState("Gems");
-    const [rssAmount, setAmount] = useState(rssValues["Gems"]["Levels"]["1"]);
+    const [selectedLevel, setRssLevel] = useState(Object.keys(rssValues["Gems"]["Levels"])[0]);
+    
 
     useEffect(() => {
         const formatTime = (itgr) => {
@@ -27,8 +33,7 @@ const AddTimer = (props) => {
             return;
         }
 
-        let ss = Math.floor(rssValues[selectedRss]["BaseSpeed"] * rssAmount / speedReduction);
-        setSeconds(ss);
+        let ss = Math.floor(rssValues[selectedRss]["BaseSpeed"] * rssValues[selectedRss].Levels[selectedLevel] / speedReduction);
     
         let mm = Math.floor(ss / 60) % 60
         let hh = Math.floor(ss / 60 / 60) % 60
@@ -40,20 +45,50 @@ const AddTimer = (props) => {
     
         setTimeStr(hh + ":" + mm + ":" + ss);
 
-    }, [rssAmount, speedReduction]);
+    }, [selectedLevel, speedReduction]);
 
-    const onGathererChange = (e) => {
-        let arr = e.target.value.split(',');
-        if (arr.length !== 3) {
-            setAllow(false);
-            return;
-        }
-        let percentageReduction = 1 + parseInt(arr[1]) / 100 + parseInt(arr[2]) / 100;
+    useEffect(() => {
+        if(!selectedGatherer) return;
+
+        let cAccount = settings.accounts[props.selectedAccount];
+        let gatherer = cAccount.gatherers[selectedGatherer];
+
+
+        setName(Object.keys(cAccount.gatherers)[0]);
+        setName(selectedGatherer);
+
+        let otherReductions = cAccount.techBonuses[selectedRss] + cAccount.otherBonuses;
+
+        let isTalent25 = 0;
+        if(gatherer.talent25) isTalent25 = 0.25;
+        let percentageReduction = 1 + parseInt(gatherer.gathererBonus) / 100 + parseInt(otherReductions) / 100 + isTalent25;
         
+        if(selectedSGatherer !== "") {
+
+            let sGatherer = cAccount.gatherers[selectedSGatherer];
+            let reduction = sGatherer.gathererBonus / 100;
+
+            percentageReduction += reduction;
+            setName(selectedGatherer + "/" + selectedSGatherer);
+        }
+
         setReduction(percentageReduction);
-        setName(arr[0]);
+        
 
         setAllow(true);
+
+    }, [selectedGatherer, selectedSGatherer])
+
+    useEffect(() => {
+        if(!props.selectedAccount) return;
+        setGatherer( Object.keys(settings.accounts[props.selectedAccount].gatherers)[0]);
+        setSGatherer("");
+        setAllow(false);
+    }, [props.selectedAccount, setGatherer, setSGatherer]);
+
+    //Check that account is valid
+    if(!props.selectedAccount) {
+        return <p>Fatal error: No account found</p>;
     }
 
     const onDepositChange = (e) => {
@@ -61,56 +96,68 @@ const AddTimer = (props) => {
     }
 
     const onRssSelectionChange = (e) => {
-        setAmount(parseInt(e.target.value));
+        setRssLevel(parseInt(e.target.value));
     }
 
     const onSubmit = () => {
-        let levels = rssValues[selectedRss]["Levels"];
-
-        let speedPerItem = rssValues[selectedRss].BaseSpeed / speedReduction;
-        
         let data = {
             "type": "normal",
             "name": name,
-            "seconds": seconds,
-            levels,
-            "speedPerItem": speedPerItem,
-            "onTerritory": false
+            "account": props.selectedAccount,
+            "gatherer": selectedGatherer,
+            "secondGatherer": selectedSGatherer,
+            "selectedRss": selectedRss,
+            "selectedLevel": selectedLevel
         }
         props.addTime(data);
     }
 
+    if (!selectedGatherer && Object.keys(settings.accounts[props.selectedAccount].gatherers).length > 0) {
+        setGatherer( Object.keys(settings.accounts[props.selectedAccount].gatherers)[0]);
+    }
+
     return (
-    <div className="TimerAdder"><h2>Add timer ({timeStr})</h2>
-    <label>Gatherer ({Math.round(speedReduction * 100)} %):
-        {props.gatherers.length <= 0 ? <span>Create a gatherer first</span> : 
-        <select onChange={onGathererChange} id="name">
-            <option/>
-            {props.gatherers.map((item, index) => {
-                return <option value={item} key={index}>{item[0]}</option>
+    <div className="TimerFormsStyle">
+    <h2>Add timer ({timeStr})</h2>
+    <label>Gatherers ({Math.round(speedReduction * 100)} %):</label>
+        {Object.keys(settings.accounts[props.selectedAccount].gatherers).length < 1 ? <span id="warning">Create a gatherer first</span> : 
+        <div style={{marginLeft: "auto"}}>
+        <label>P:
+        <select onChange={(e) => {setGatherer(e.target.value);}} value={selectedGatherer} id="name">
+            {Object.keys(settings.accounts[props.selectedAccount].gatherers).map((item, index) => {
+                return <option value={item} key={index}>{item}</option>
             })}
-        </select>}
-    </label>
+        </select>
+        </label>
+        <label>S:
+            <select onChange={(e) => {setSGatherer(e.target.value);}} value={selectedSGatherer} id="name">
+                <option value={""}>None</option>
+            {Object.keys(settings.accounts[props.selectedAccount].gatherers).map((item, index) => {
+                return <option value={item} key={index}>{item}</option>
+            })}
+            </select>
+        </label>
+        </div>}
     <label>Name:
-    <input type="text" id="name" value={name} onInput={e => setName(e.target.value)}></input>
+        <input type="text" id="name" value={name} onInput={e => setName(e.target.value)}></input>
     </label>
     <label>Deposit type:
-            <select className="rssSelection" onChange={onDepositChange} disabled={!allow} value={selectedRss}>
+            <select onChange={onDepositChange} disabled={!allow} value={selectedRss}>
                 {Object.keys(rssValues).map((key, i) => {
                     return <option value={key} key={key + i}>{key}</option>
                 })}
             </select>
     </label>
     <label>Deposit level:
-            <select className="rssSelection" disabled={!allow} onChange={onRssSelectionChange}>
-                {Object.entries(rssValues[selectedRss]["Levels"]).map(([key, item], index) => {
-                    return <option value={item} key={key+selectedRss}>Level {key}</option>
+            <select disabled={!allow} onChange={onRssSelectionChange}>
+                {Object.keys(rssValues[selectedRss]["Levels"]).map((key, index) => {
+                    return <option value={key} key={key+selectedRss}>Level {key}</option>
                 })}
             </select>
     </label>
-    <div>
-        <button id="custombutton" onClick={() => props.setCustom(true)}>Use custom timers</button>
-        <button disabled={!allow} onClick={onSubmit}>Add</button>
+    <div className="ButtonAlign">
+        <button onClick={() => props.setCustom(true)}>Use custom timers</button>
+        <button id="add" disabled={!allow} onClick={onSubmit}>Add</button>
     </div>
     </div>);
 }

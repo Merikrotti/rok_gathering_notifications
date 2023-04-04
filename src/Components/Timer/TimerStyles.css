@@ -1,0 +1,126 @@
+.TimerFormsContainer {
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: max-content;
+  gap: 15px;
+}
+.TimerFormsContainer > div:first-child, .TimerFormsContainer > div:nth-child(2) {
+  margin-bottom: 5px;
+}
+
+.TimerFormsContainer > div:nth-child(2) {
+  padding:10px;
+}
+
+.TimerFormsContainer > div:nth-child(3), .TimerFormsContainer > div:nth-child(4)  {
+  margin-bottom: 20px;
+}
+
+.TimerFormsContainer > div {
+  flex: 45% 1 1;
+  min-width: 9em;
+  width: 11em;
+}
+
+
+.TimerFormsStyle > label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.TimerFormsStyle > label > * {
+  margin-left: 2em;
+}
+
+.TimerFormsStyle {
+  background-color: rgb(46, 79, 100);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 5px 10px;
+}
+
+.TimerFormsStyle > .WindowPopups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.TimerFormsStyle > .WindowPopups > * {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.TimerFormsStyle > .SelectAccount {
+  display: flex;
+  flex-direction: column;
+}
+
+.TimerFormsStyle > .SelectAccount > * {
+  display: flex;
+  justify-content: space-between;
+}
+
+.TimerFormsStyle > .WindowPopups > * > button{
+  height: 40px;
+  width: 60px;
+}
+
+.TimerFormsContainer > div > label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.TimerFormsContainer > button:after(div:last-of-type) {
+  width: 50px;
+}
+
+.TitleAlign {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid grey;
+  margin-bottom: 10px;
+  padding: 0px;
+  max-height: max-content;
+  height: 50px;
+}
+
+.TitleAlign > h2 {
+  flex: 85% 0 0;
+}
+
+.TitleAlign > button {
+  flex: 15% 1 0;
+  height: 40px;
+}
+
+.ButtonAlign {
+  display: flex;
+  justify-content: space-between;
+}
+
+.TimerFormsContainer #add {
+  width: 5em;
+  height: 2em;
+}
+
+.BonusAdd {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.BonusAdd > * {
+  align-self: center;
+}
+
+#warning {
+  color: red;
+}

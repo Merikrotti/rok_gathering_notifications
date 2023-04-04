@@ -1,0 +1,67 @@
+.TechContainer {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    min-width: 300px;
+    height: 70vh;
+    max-height: 550px;
+    overflow-y: auto;
+    margin-bottom: 25px;
+}
+
+.TechContainer > h1 {
+    border-bottom: 5px grey dotted;
+}
+
+.TechContainer > div:last-of-type {
+    margin-bottom: 15px;
+}
+
+.TechContainer > button:last-of-type {
+    align-self: center;
+    width: 100%;
+    height: 40px;
+}
+
+.TechForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.TechForm > h2 {
+    border-bottom: 2px grey solid;
+}
+
+
+.TechForm > label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.GathContainer {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    min-width: 300px;
+    height: 70vh;
+    max-height: 550px;
+    overflow-y: auto;
+    margin-bottom: 25px;
+}
+
+
+.GathForm {
+    display: flex;
+    flex-direction: column;
+    gap: 5px 0;
+}
+
+.GathForm > label {
+    display: flex;
+    justify-content: space-between;
+}
+.GathForm > button {
+    width: 100px;
+    margin-left: auto;
+}

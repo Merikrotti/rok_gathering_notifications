@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react"
 import { useSettingsContext } from "../SettingsContext/SettingsContextBuilder";
+import rssValues from "./Components/resourcevalues.json";
 
 const Timer = (props) => {
     const [endTime, setTime] = useState(null);
-    const [resetTime, setReset] = useState(props.data.seconds);
+    const [resetTime, setReset] = useState(-1);
     const [timerStatus, setStatus] = useState(true);
     const [timerString, setTimerStr] = useState("00:00:00");
     const {settings} = useSettingsContext();
+
+    const [onTerritory, setOnTerritory] = useState(false);
+
+    const [isFiltered, setFiltered] = useState(false);
+
+    const [name, setName] = useState(props.data.name);
+    const [prefix, setPrefix] = useState();
     
     const resetTimeWithSeconds = (seconds) => {
         let timeNow = new Date();
@@ -16,21 +24,92 @@ const Timer = (props) => {
         setTime(timeNow);
     }
 
+    //Calculation for the reduction
+    const calculateReduction = (selectedLevel) => {
+        let amount = rssValues[props.data.selectedRss].Levels[selectedLevel];
+        let baseSpeed = rssValues[props.data.selectedRss].BaseSpeed;
+        let account = settings.accounts[props.data.account];
+
+        let techReduction = (account.techBonuses[props.data.selectedRss] / 100 + account.otherBonuses / 100);
+
+        let gatherer = account.gatherers[props.data.gatherer];
+
+        let gathererReduction = gatherer.gathererBonus / 100;
+        if(gatherer.talent25) 
+            gathererReduction = gathererReduction + 0.25;
+
+        if(props.data.secondGatherer !== "") {
+            let sGatherer = account.gatherers[props.data.secondGatherer];
+            let sgathererReduction = sGatherer.gathererBonus / 100;
+            gathererReduction += sgathererReduction;
+        }
+
+        let seconds = Math.round(amount * baseSpeed / (1 + techReduction + gathererReduction));
+        
+        resetTimeWithSeconds(seconds);
+    }
+
+    const resetTimer = () => {
+        if(props.data.type === "normal") {
+            calculateReduction(props.data.selectedLevel);
+        } else {
+            resetTimeWithSeconds(props.data.seconds);
+        }
+    }
+
     if(endTime === null) {
-        resetTimeWithSeconds(props.data.seconds);
+        if(props.data.type === "normal") {
+            if (settings.accounts[props.data.account].usePrefix) {
+                setPrefix(settings.accounts[props.data.account].prefix);
+            }
+        }
+        resetTimer();
+    }
+
+    //Updates parent with new data
+    const updateParent = (data) => {
+        props.updateStatus(props.pKey, data);
+    }
+
+    const checkFilterStatus = () => {
+        if(props.filteredTimers.indexOf(props.pKey) !== -1) {
+            setFiltered(true);
+        } else {
+            setFiltered(false);
+        }
     }
 
     useEffect(() => {
+        //Default response to parent updateStatus function
+        const defaultFilterResponse = {
+            "type": props.data.type,
+            "status": "active",
+            "account": props.data.account,
+            "isFinished": false
+        }
+
         const setTime = () => {
 
             let timeNow = new Date();
             let timediff = endTime - timeNow;
 
-            if (timediff <= 0) {
+            if(onTerritory) {
+                timediff = timediff - resetTime * 0.25 * 1000;
+            }
+            
+
+            if (timediff < 1000) {
                 setStatus(false);
-                var audio = new Audio("https://github.com/Merikrotti/rok_gathering_notifications/blob/main/src/ding.mp3?raw=true");
+                var audio = new Audio(process.env.PUBLIC_URL + "/ding.mp3");
                 audio.volume = settings.volume / 100;
                 audio.play();
+                setTimerStr("FINISHED");
+                
+                //Update status for filter
+                let filterResponse = defaultFilterResponse;
+                filterResponse.isFinished = true;
+                updateParent(filterResponse);
+
                 return;
             }
             let floatseconds = timediff / 1000;
@@ -56,16 +135,23 @@ const Timer = (props) => {
             return itgr + "";
         }
 
-        const itv = setInterval(() => setTime(), 200);
+        const itv = setInterval(() => setTime(), 100);
+
+        //If timer is running, update filter parent data.
+        if(timerStatus) {
+            updateParent(defaultFilterResponse);
+        }
+
         if(!timerStatus) {
             clearInterval(itv);
         }
+        checkFilterStatus();
         return () => clearInterval(itv);
-    }, [timerStatus, settings, endTime])
+    }, [timerStatus, settings, endTime, props.filteredTimers, updateParent, checkFilterStatus])
 
     const resetGather = () => {
         setStatus(true);
-        resetTimeWithSeconds(resetTime);
+        resetTime();
     }
 
     const stopGather = () => {
@@ -79,6 +165,16 @@ const Timer = (props) => {
 
     const remove = () => {
         setStatus(null);
+
+        //Update filter parent to know that this timer is removed.
+        let newTimer = {
+            "type": props.data.type,
+            "status": "removed",
+            "account": props.data.account,
+            "isFinished": false
+        }
+
+        updateParent(newTimer);
     }
 
     if(timerStatus === null) {
@@ -86,24 +182,23 @@ const Timer = (props) => {
     }
 
     const onDepositReset = (e) => {
-        let seconds = parseInt(e.target.value) * props.data.speedPerItem;
-        resetTimeWithSeconds(seconds);
+        calculateReduction(e.target.value);
     }
 
     
 
     return (
-    <div className="TimerContainer">
-        {props.data.name === "" ? <h2>No name</h2> : <h2>{props.data.name}</h2>}
-    <div className="Timer">
-        <p>Time left: {timerString}</p>
-        <div className="TimerControls">
+    <div className="Timers" style={{backgroundColor: timerString === "FINISHED" ? 'darkcyan' : 'darkred'}} hidden={isFiltered}>
+        {<h2>{prefix ? <span style={{color: "magenta"}}>[{prefix}] </span> : ""}{name}</h2>}
+    <div className="TimerControls">
+        <p>Time left: <span style={{color: timerString === "FINISHED" ? 'darkred' : 'white'}}>{timerString}</span></p>
+        <div>
+        <button className="CustomButton" id={onTerritory ? "active" : "disabled"} onClick={() => setOnTerritory(!onTerritory)}>on territory</button>
         <button onClick={resetGather}>reset</button>
-        <button onClick={stopGather}>stop</button>
         <button onClick={remove}>remove</button>
         </div>
     </div>
-    <div className="TimerMath">
+    <div>
         <p>Add time: </p>
         <div className="TimerButtons">
         <button onClick={addMarch} value={1}>1</button>
@@ -118,7 +213,7 @@ const Timer = (props) => {
         <button onClick={addMarch} value={10}>10</button>
         </div>
     </div>
-    <div className="TimerMath">
+    <div>
         <div><p>Subtract time: </p></div>
         <div className="TimerButtons">
         <button onClick={addMarch} value={-1}>1</button>
@@ -133,11 +228,11 @@ const Timer = (props) => {
         <button onClick={addMarch} value={-10}>10</button>
         </div>
     </div>
-    {props.data.type === "normal" ? <div className="TimerMath">
+    {props.data.type === "normal" ? <div>
         <div><p>Deposit level reset: </p></div>
         <div className="TimerButtons">
-            {Object.entries(props.data.levels).map(([key, item], index) => {
-                return <button onClick={onDepositReset} value={item} key={key + item + index + timerString}>{key}</button>
+            {Object.keys(rssValues[props.data.selectedRss].Levels).map((key, index) => {
+                return <button onClick={onDepositReset} value={key} key={key + index + timerString}>{key}</button>
             })}
         </div>
     </div>
