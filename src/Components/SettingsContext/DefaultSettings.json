@@ -2,7 +2,7 @@
     "accounts": {
         "Default": {
             "prefix": "DEF",
-            "usePrefix": true,
+            "usePrefix": false,
             "techBonuses": {
                 "Food": 0,
                 "Wood": 0,
@@ -12,10 +12,6 @@
             },
             "otherBonuses": 0,
             "gatherers": {
-                "Sarka/Centurion": {
-                    "gathererBonus": 0,
-                    "talent25": true
-                }
             }
         }
     },

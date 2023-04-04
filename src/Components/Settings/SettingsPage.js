@@ -57,7 +57,6 @@ const SettingsPage = () => {
             <label>Name:
                 <input type="text" onChange={(e) => setAccountName(e.target.value)}></input>
             </label>
-            <p style={{color: "red"}}>Note: Do not make accounts with the same name (for now)</p>
             <button onClick={createAccount}>Create</button>
         </div>
         <div className="settingsItem">
@@ -67,7 +66,6 @@ const SettingsPage = () => {
                     return <option value={key} key={"a-rm" + index+key}>{key}</option>
                 })}
             </select>
-            <p style={{color: "red"}}>Note: This is unrecoverable</p>
             <button disabled={true}>Remove</button>
         </div>
         <div className="settingsItem">

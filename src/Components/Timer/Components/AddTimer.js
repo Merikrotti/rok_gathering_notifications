@@ -79,6 +79,13 @@ const AddTimer = (props) => {
 
     }, [selectedGatherer, selectedSGatherer])
 
+    useEffect(() => {
+        if(!props.selectedAccount) return;
+        setGatherer( Object.keys(settings.accounts[props.selectedAccount].gatherers)[0]);
+        setSGatherer("");
+        setAllow(false);
+    }, [props.selectedAccount, setGatherer, setSGatherer]);
+
     //Check that account is valid
     if(!props.selectedAccount) {
         return <p>Fatal error: No account found</p>;
