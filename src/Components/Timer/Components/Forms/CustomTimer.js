@@ -1,7 +1,10 @@
 import { useState } from "react";
-import "../TimerStyles.css";
+import { useDataContext } from "../../../Contexts/DataContext";
+import "../css/TimerStyles.css";
 
 const CustomTimer = (props) => {
+    const {selectedAccount, addTime} = useDataContext();
+
     const [name, setName] = useState("");
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
@@ -14,11 +17,11 @@ const CustomTimer = (props) => {
         let data = {
             "type": "custom",
             "name": name === "" ? "Custom timer" : name,
-            "account": linkToAccount ? props.selectedAccount : "Custom Timer",
+            "account": linkToAccount ? selectedAccount : "Custom Timer",
             "seconds": _seconds
         }
 
-        props.addTime(data);
+        addTime(data);
     }
 
     return (<div className="TimerFormsStyle">

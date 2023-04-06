@@ -6,10 +6,29 @@ Live version in github.io; https://merikrotti.github.io/rok_gathering_notificati
 
 Incomplete. So is this readme.
 
+## Version plan:
 
-## TODO
+### pre-v0.2
+Semi-functional program with all of the gathering calculations done.
 
-Save sessions. Implement "farming on territory" reduction and alliance speedups after that. Custom timers probably aswell if I will bother.
+### v0.2
+Layout finished, additions to help handling data
+
+### v0.3
+Final data fixes, cleaning up.
+
+### after-v0.3
+Middleware API, maybe other features.
+
+## Bugs
+
+### Major:
+- Errors with modified/removed accounts are TODO. Creating a context provider to handle this.
+- JSON saves accounts as the name as the primary key. Not a bug, but terrible practice. Will change to ID's
+- Most of programming errors related to modified data will be fixed at 0.3.
+
+### Minor:
+- Filters stay when every timer is removed.
 
 ## I have an issue?
 

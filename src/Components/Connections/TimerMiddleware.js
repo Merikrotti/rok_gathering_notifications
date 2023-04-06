@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSettingsContext } from "../SettingsContext/SettingsContextBuilder";
+import { useSettingsContext } from "../Contexts/SettingsContextBuilder";
 import './middleware.css';
 
 // This code will NEVER RUN unless EXPLICITLY TOLD TO!
@@ -63,6 +63,15 @@ const TimerMiddleware = (props) => {
             setError("Connection already closed, see console.");
         }
         setSocket(null);
+    }
+
+    if (process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+        
+    } else {
+        return (<div>
+            <p style={{color: "red"}}>Non-development environment detected.</p>
+            <span style={{color: "red"}}>Middleware will be disabled in production until it is ready.</span>
+        </div>);
     }
 
     return (<div>

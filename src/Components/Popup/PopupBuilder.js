@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useSettingsContext } from '../SettingsContext/SettingsContextBuilder';
+import { useSettingsContext } from '../Contexts/SettingsContextBuilder';
 import Popup from './Popup';
 
 const PopupBuilder = () => {

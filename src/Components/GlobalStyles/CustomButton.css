@@ -1,0 +1,31 @@
+.CustomButton {
+    border: 0;
+    padding: 6px 20px;
+    border-radius: 15px;
+    text-align: center;
+    text-shadow: 2px 2px 2px black;
+    color: white;
+    box-shadow: inset 3px 3px 3px rgba(235, 163, 163, 0.6), inset -3px -3px 3px rgba(80, 80, 80, 0.9);
+}
+
+.CustomButton:active {
+    box-shadow: inset 3px 3px 3px rgba(80, 80, 80, 0.9), inset -3px -3px 3px rgba(235, 163, 163, 0.6);
+}
+
+.CustomButton:hover {
+    color:grey;
+}
+
+#active {
+    background-color: rgb(230, 0, 0);
+}
+
+#active:hover {
+    background-color: rgb(200, 0, 0);
+}
+#disabled {
+    background-color: rgb(128, 128, 128);
+}
+#disabled:hover {
+    background-color: rgb(100, 100, 100);
+}

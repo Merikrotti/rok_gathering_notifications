@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import rssValues from "./resourcevalues.json";
-import "../TimerStyles.css";
-import { useSettingsContext } from "../../SettingsContext/SettingsContextBuilder";
+import "../css/TimerStyles.css";
+import { useSettingsContext } from "../../../Contexts/SettingsContextBuilder";
+import { useDataContext } from "../../../Contexts/DataContext";
 
 
 //TODO split this application apart and comment.
 const AddTimer = (props) => {
 
+    const {selectedAccount, addTime} = useDataContext();
     const {settings} = useSettingsContext();
 
     //Hooks
@@ -50,7 +52,7 @@ const AddTimer = (props) => {
     useEffect(() => {
         if(!selectedGatherer) return;
 
-        let cAccount = settings.accounts[props.selectedAccount];
+        let cAccount = settings.accounts[selectedAccount];
         let gatherer = cAccount.gatherers[selectedGatherer];
 
 
@@ -80,14 +82,14 @@ const AddTimer = (props) => {
     }, [selectedGatherer, selectedSGatherer])
 
     useEffect(() => {
-        if(!props.selectedAccount) return;
-        setGatherer( Object.keys(settings.accounts[props.selectedAccount].gatherers)[0]);
+        if(selectedAccount) return;
+        setGatherer(Object.keys(settings.accounts[selectedAccount].gatherers)[0]);
         setSGatherer("");
         setAllow(false);
-    }, [props.selectedAccount, setGatherer, setSGatherer]);
+    }, [selectedAccount, setGatherer, setSGatherer]);
 
     //Check that account is valid
-    if(!props.selectedAccount) {
+    if(!selectedAccount) {
         return <p>Fatal error: No account found</p>;
     }
 
@@ -103,41 +105,42 @@ const AddTimer = (props) => {
         let data = {
             "type": "normal",
             "name": name,
-            "account": props.selectedAccount,
+            "account": selectedAccount,
             "gatherer": selectedGatherer,
             "secondGatherer": selectedSGatherer,
             "selectedRss": selectedRss,
             "selectedLevel": selectedLevel
         }
-        props.addTime(data);
+        addTime(data);
     }
 
-    if (!selectedGatherer && Object.keys(settings.accounts[props.selectedAccount].gatherers).length > 0) {
-        setGatherer( Object.keys(settings.accounts[props.selectedAccount].gatherers)[0]);
+    if (!selectedGatherer && Object.keys(settings.accounts[selectedAccount].gatherers).length > 0) {
+        setGatherer( Object.keys(settings.accounts[selectedAccount].gatherers)[0]);
     }
 
     return (
     <div className="TimerFormsStyle">
     <h2>Add timer ({timeStr})</h2>
-    <label>Gatherers ({Math.round(speedReduction * 100)} %):</label>
-        {Object.keys(settings.accounts[props.selectedAccount].gatherers).length < 1 ? <span id="warning">Create a gatherer first</span> : 
-        <div style={{marginLeft: "auto"}}>
-        <label>P:
+    <label className="gatherers">Gatherers ({Math.round(speedReduction * 100)} %):
+        {Object.keys(settings.accounts[selectedAccount].gatherers).length < 1 ? <span id="warning">Create a gatherer first</span> : 
+        <div>
+        <label>Primary:
         <select onChange={(e) => {setGatherer(e.target.value);}} value={selectedGatherer} id="name">
-            {Object.keys(settings.accounts[props.selectedAccount].gatherers).map((item, index) => {
+            {Object.keys(settings.accounts[selectedAccount].gatherers).map((item, index) => {
                 return <option value={item} key={index}>{item}</option>
             })}
         </select>
         </label>
-        <label>S:
+        <label>Secondary:
             <select onChange={(e) => {setSGatherer(e.target.value);}} value={selectedSGatherer} id="name">
                 <option value={""}>None</option>
-            {Object.keys(settings.accounts[props.selectedAccount].gatherers).map((item, index) => {
+            {Object.keys(settings.accounts[selectedAccount].gatherers).map((item, index) => {
                 return <option value={item} key={index}>{item}</option>
             })}
             </select>
         </label>
         </div>}
+    </label>
     <label>Name:
         <input type="text" id="name" value={name} onInput={e => setName(e.target.value)}></input>
     </label>

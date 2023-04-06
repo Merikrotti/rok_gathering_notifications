@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react"
-import { useSettingsContext } from "../SettingsContext/SettingsContextBuilder";
-import rssValues from "./Components/resourcevalues.json";
+import { useDataContext } from "../../Contexts/DataContext";
+import { useSettingsContext } from "../../Contexts/SettingsContextBuilder";
+import rssValues from "./Forms/resourcevalues.json";
+import "./css/Timers.css";
 
 const Timer = (props) => {
+
+    const {updateActiveTimerStatus, filteredTimers} = useDataContext();
+
     const [endTime, setTime] = useState(null);
     const [resetTime, setReset] = useState(-1);
     const [timerStatus, setStatus] = useState(true);
@@ -15,6 +20,10 @@ const Timer = (props) => {
 
     const [name, setName] = useState(props.data.name);
     const [prefix, setPrefix] = useState();
+
+
+    //TODO remove this hook
+    const [CrucialDataRemoved, setCDR] = useState(false);
     
     const resetTimeWithSeconds = (seconds) => {
         let timeNow = new Date();
@@ -30,9 +39,19 @@ const Timer = (props) => {
         let baseSpeed = rssValues[props.data.selectedRss].BaseSpeed;
         let account = settings.accounts[props.data.account];
 
+        if(!account) {
+            setCDR(true);
+            return;
+        }
+
         let techReduction = (account.techBonuses[props.data.selectedRss] / 100 + account.otherBonuses / 100);
 
         let gatherer = account.gatherers[props.data.gatherer];
+
+        if(!gatherer) {
+            setCDR(true);
+            return;
+        }
 
         let gathererReduction = gatherer.gathererBonus / 100;
         if(gatherer.talent25) 
@@ -68,15 +87,7 @@ const Timer = (props) => {
 
     //Updates parent with new data
     const updateParent = (data) => {
-        props.updateStatus(props.pKey, data);
-    }
-
-    const checkFilterStatus = () => {
-        if(props.filteredTimers.indexOf(props.pKey) !== -1) {
-            setFiltered(true);
-        } else {
-            setFiltered(false);
-        }
+        updateActiveTimerStatus(props.pKey, data);
     }
 
     useEffect(() => {
@@ -86,6 +97,14 @@ const Timer = (props) => {
             "status": "active",
             "account": props.data.account,
             "isFinished": false
+        }
+
+        //TODO Remove CrucialDataRemoved CDR
+        if(CrucialDataRemoved && timerStatus !== null) {
+            let newStatus = defaultFilterResponse;
+            newStatus.account = "Errors";
+            updateParent(newStatus);
+            return;
         }
 
         const setTime = () => {
@@ -145,9 +164,15 @@ const Timer = (props) => {
         if(!timerStatus) {
             clearInterval(itv);
         }
-        checkFilterStatus();
+
+        if(filteredTimers.indexOf(props.pKey) !== -1) {
+            setFiltered(true);
+        } else {
+            setFiltered(false);
+        }
+        
         return () => clearInterval(itv);
-    }, [timerStatus, settings, endTime, props.filteredTimers, updateParent, checkFilterStatus])
+    }, [timerStatus, settings, endTime, filteredTimers, updateParent, setFiltered])
 
     const resetGather = () => {
         setStatus(true);
@@ -177,24 +202,34 @@ const Timer = (props) => {
         updateParent(newTimer);
     }
 
-    if(timerStatus === null) {
+    if(timerStatus === null || isFiltered) {
         return;
+    }
+
+
+    //TODO remove
+    if(CrucialDataRemoved) {
+        return (<div className="Timers" style={{backgroundColor: "blue"}}>
+                    <p>You have removed or edited crucial data from this timer.</p>
+                    <p>This will be fixed later.</p>
+                    <p>This was:</p>
+                    <p>g1: {props.data.gatherer ?? "none"} | g2:{props.data.secondGatherer ?? "none"} | account: {props.data.account ?? "none"} | type: {props.data.type ?? "this should not be null"}</p>
+                    <button onClick={remove}>Remove</button>
+                </div>);
     }
 
     const onDepositReset = (e) => {
         calculateReduction(e.target.value);
     }
 
-    
-
     return (
-    <div className="Timers" style={{backgroundColor: timerString === "FINISHED" ? 'darkcyan' : 'darkred'}} hidden={isFiltered}>
+    <div className="Timers" style={{backgroundColor: timerString === "FINISHED" ? 'darkcyan' : 'darkred'}}>
         {<h2>{prefix ? <span style={{color: "magenta"}}>[{prefix}] </span> : ""}{name}</h2>}
     <div className="TimerControls">
         <p>Time left: <span style={{color: timerString === "FINISHED" ? 'darkred' : 'white'}}>{timerString}</span></p>
         <div>
         <button className="CustomButton" id={onTerritory ? "active" : "disabled"} onClick={() => setOnTerritory(!onTerritory)}>on territory</button>
-        <button onClick={resetGather}>reset</button>
+        <button onClick={resetTimer}>reset</button>
         <button onClick={remove}>remove</button>
         </div>
     </div>

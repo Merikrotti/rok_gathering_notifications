@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useSettingsContext } from "../../../SettingsContext/SettingsContextBuilder";
-import "./TechBonuses.css"
+import { useSettingsContext } from "../../../Contexts/SettingsContextBuilder";
+import "../css/TechBonuses.css"
 
 const TechBonuses = (props) => {
     //Load settings
