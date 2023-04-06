@@ -20,7 +20,7 @@ const AddTimer = (props) => {
     const [selectedGatherer, setGatherer] = useState();
     const [selectedSGatherer, setSGatherer] = useState("");
     const [selectedRss, setSelectedRss] = useState("Gems");
-    const [selectedLevel, setRssLevel] = useState(Object.keys(rssValues["Gems"]["Levels"])[0]);
+    const [selectedLevel, setRssLevel] = useState();
     
 
     useEffect(() => {
@@ -87,6 +87,11 @@ const AddTimer = (props) => {
         setSGatherer("");
         setAllow(false);
     }, [selectedAccount, setGatherer, setSGatherer]);
+
+    useEffect(() => {
+        setRssLevel(Object.keys(rssValues[selectedRss]["Levels"])[0]);
+
+    }, [selectedRss])
 
     //Check that account is valid
     if(!selectedAccount) {
