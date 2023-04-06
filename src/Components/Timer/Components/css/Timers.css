@@ -1,0 +1,49 @@
+.Timers {
+    display: flex;
+    margin-top: 10px;
+    border-radius: 20px;
+    width: max-content;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    line-height: 5px;
+}
+
+.Timers > h2 {
+    align-self: center;
+    height: 0px;
+}
+
+.Timers > div {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 0 20px;
+    max-height: max-content;
+}
+
+.TimerButtons {
+    display: flex;
+    gap: 0 10px;
+}
+
+.TimerButtons > * {
+    width: 30px;
+    height: 30px;
+}
+
+.TimerControls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.TimerControls > div {
+    display: flex;
+    gap: 0 10px;
+}
+
+.TimerControls > div > * {
+    flex: 1 1 auto;
+    height: 30px;
+}

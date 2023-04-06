@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSettingsContext } from "../../../SettingsContext/SettingsContextBuilder";
-import "./TechBonuses.css"
+import { useDataContext } from "../../../Contexts/DataContext";
+import { useSettingsContext } from "../../../Contexts/SettingsContextBuilder";
+import "../css/TechBonuses.css"
 
 const GathererBonuses = (props) => {
     //Load settings
-    const {settings, changeSettings} = useSettingsContext();
+    const {settings} = useSettingsContext();
 
     //Hooks
     const [name, setName] = useState("");
@@ -40,6 +41,7 @@ const GathererBonuses = (props) => {
         setName("");
         setSpeed(0);
         setTalent(false);
+        props.onGathererNameUpdate(gthname);
     }
 
     const onSave = () => {

@@ -42,6 +42,28 @@
   box-shadow: 5px 10px;
 }
 
+.gatherers {
+  display: flex;
+  margin-bottom: 10px !important;
+  border: 2px dashed grey;
+  padding: 5px;
+}
+
+.gatherers > * {
+  margin-left: auto;
+}
+
+.gatherers > div {
+  flex: 0.5 1 auto;
+}
+
+
+.gatherers > div > label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .TimerFormsStyle > .WindowPopups {
   display: flex;
   flex-direction: column;

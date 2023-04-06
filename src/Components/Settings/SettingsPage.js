@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import TimerMiddleware from "../Connections/TimerMiddleware";
-import { useSettingsContext } from "../SettingsContext/SettingsContextBuilder";
+import { useSettingsContext } from "../Contexts/SettingsContextBuilder";
 import './settings.css';
 
 const SettingsPage = () => {
 
-    const {settings, changeSettings} = useSettingsContext();
+    const {settings} = useSettingsContext();
     const [middlewareStatus, setMiddlewareStatus] = useState(settings.middleware.isEnabled);  
     const [newSettings, setNewSettings] = useState(settings); 
-    const [volume, setVolume] = useState(settings.volume); 
 
     //Create new account
     const [accountName, setAccountName] = useState("");
@@ -19,14 +18,6 @@ const SettingsPage = () => {
         setMiddlewareStatus(!middlewareStatus);
         setNewSettings(newSettings);
     }
-
-    const changeVolume = (e) => {
-        let temp = settings;
-        temp.volume = e.target.value;
-        setNewSettings(settings);
-        setVolume(temp.volume);
-    }
-
     const createAccount = () => {
         let accountData = 
         {
@@ -61,30 +52,98 @@ const SettingsPage = () => {
         </div>
         <div className="settingsItem">
             <h2>Remove account (TODO)</h2>
-            <select>
+            <label>Account:
+                <select>
                 {Object.keys(settings.accounts).map((key, index) => {
                     return <option value={key} key={"a-rm" + index+key}>{key}</option>
                 })}
-            </select>
+                </select>
+            </label>
             <button disabled={true}>Remove</button>
         </div>
         <div className="settingsItem">
-            <h2>Middleware (unf)</h2> <span>For now, you can only see responses.</span>
+            <h2>Middleware (TODO)</h2>
             <TimerMiddleware isEnabled={middlewareStatus} />
             <label>Option:
                 <button onClick={updateMiddleware}>{middlewareStatus ? "Disable middleware" : "Enable middleware"}</button>
             </label>
         </div>
-        <div className="settingsItem">
-            <h2>Options</h2>
+        <Options/>
+    </div>)
+}
+
+
+const Options = () => {
+    const {settings, changeSettings} = useSettingsContext();
+    
+
+    const [volume, setVolume] = useState(settings.volume); 
+    const [localStorage, setLS] = useState(settings.localstorage);
+
+    const changeVolume = (e) => {
+        setVolume(e.target.value);
+        settings.volume = e.target.value;
+    }
+
+    const exportJson = () => {
+    
+        const jsonData = JSON.stringify(settings);
+        const blob = new Blob([jsonData], { type: "application/json" });
+    
+        const downloadLink = document.createElement("a");
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = "mydata.json";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    };
+
+    const onLocalStorageRemove = () => {
+        delete localStorage.data;
+    }
+
+    const onLocalStorageChange = () => {
+        let newLS = !localStorage;
+        
+        settings.localstorage = newLS;
+        setLS(newLS);
+    }
+
+
+    const onFinishedImport = (data) => {
+        changeSettings(data);
+    }
+
+    const importJson = (e) => {
+        let file = e.target.files[0];
+        let reader = new FileReader();
+        reader.onload = (event) => {
+            let jsonData = event.target.result;
+            let data = JSON.parse(jsonData);
+            onFinishedImport(data);
+        };
+        reader.readAsText(file);
+    }
+
+    return (
+    <div className="settingsItem">
+        <h2>Options</h2>
             <label>Volume ({volume} %):
                 <input type="range" min="0" max="100" value={volume} onChange={changeVolume}></input>
             </label>
-            <label>Save (Direct write in use):
-                <button onClick={() => changeSettings(settings)} disabled>Save</button>
-            </label>
-        </div>
-    </div>)
+            <div className="sData">
+                <h3>Import settings:</h3>
+                <button onClick={() => exportJson()}>Export</button>
+                <button onClick={() => document.getElementById('importfile').click()}>Import</button>
+                <label>Save to browser? (LocalStorage)
+                    <input type="checkbox" checked={localStorage} onChange={() => onLocalStorageChange()}></input>
+                </label>
+                <label>Remove browser storage:
+                    <button onClick={() => onLocalStorageRemove()}>Remove</button>
+                </label>
+                <input id="importfile"  type="file" onChange={importJson} hidden={true}></input>
+            </div>
+    </div>);
 }
 
 export default SettingsPage;

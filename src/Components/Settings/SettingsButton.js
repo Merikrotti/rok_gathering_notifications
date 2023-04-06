@@ -1,4 +1,4 @@
-import { useSettingsContext } from "../SettingsContext/SettingsContextBuilder";
+import { useSettingsContext } from "../Contexts/SettingsContextBuilder";
 import 'font-awesome/css/font-awesome.min.css';
 import './settings.css';
 import SettingsPage from "./SettingsPage";

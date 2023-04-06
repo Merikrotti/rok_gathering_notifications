@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { useSettingsContext } from "../SettingsContext/SettingsContextBuilder";
+import { useDataContext } from "../../../Contexts/DataContext";
+import { useSettingsContext } from "../../../Contexts/SettingsContextBuilder";
 
-const SelectAccount = (props) => {
+const SelectAccount = () => {
+    const {selectedAccount, setSelectedAccount} = useDataContext();
     const {settings} = useSettingsContext();
-    const [selectedAccount, setAccount] = useState(Object.keys(settings.accounts)[0]);
+
 
     useEffect(() => {
-        props.setSelectedAccount(selectedAccount);
-    }, [selectedAccount, props.setSelectedAccount]);
+        setSelectedAccount(selectedAccount);
+    }, [selectedAccount, setSelectedAccount]);
 
 
     return (
@@ -16,7 +18,7 @@ const SelectAccount = (props) => {
         {Object.keys(settings.accounts).length > 0 ?
         <div className="SelectAccount">
         <label>Account:
-            <select value={selectedAccount} onChange={(e) => setAccount(e.target.value)}>
+            <select value={selectedAccount} onChange={(e) => setSelectedAccount(e.target.value)}>
                 {Object.keys(settings.accounts).map((item, index) => {
                     return <option value={item} key={item+index}>{item}</option>
                 })}

@@ -1,6 +1,6 @@
-import "./BPopup.css";
+import "../css/BPopup.css";
 import "../../../GlobalStyles/Example.css";
-import { useSettingsContext } from "../../../SettingsContext/SettingsContextBuilder";
+import { useSettingsContext } from "../../../Contexts/SettingsContextBuilder";
 import { useState } from "react";
 
 const BonusesPopup = () => {
