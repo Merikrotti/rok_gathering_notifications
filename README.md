@@ -1,3 +1,7 @@
+# Abandoned
+
+No longer playing the game and I got stuck implementing middleware trying to reverse the game. The program doesn't work due to some data sharing issues, but those shouldn't be a major issue.
+
 # Rise of Kingdoms Gathering timer
 
 A timer that calculates how much time it takes for you to gather and notifies you.
